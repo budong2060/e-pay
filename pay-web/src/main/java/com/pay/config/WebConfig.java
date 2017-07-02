@@ -1,5 +1,6 @@
 package com.pay.config;
 
+import com.pay.intercepter.AllInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -21,6 +22,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -45,6 +47,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
+        registry.addInterceptor(new AllInterceptor());
     }
 
     @Override
