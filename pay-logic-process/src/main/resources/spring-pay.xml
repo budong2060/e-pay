@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.schemea.hyb.com/schema/job"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+         http://www.schemea.hyb.com/schema/job http://www.schemea.hyb.com/schema/job/job.xsd
+         "
+	default-autowire="byName">
+
+	<job id="payJob" class="com.framework.process.SimpleJob">
+		<context name="jobContext" class="com.framework.process.DefaultJobContext">
+			<node name="checkNode" class="com.pay.logic.node.PayCheckNode">
+				<!--<decision name="payWay" expression="#{domain.name}" />-->
+				<node name="prepareNode" class="com.pay.logic.node.wx.WXAppPayNode" />
+			</node>
+		</context>
+	</job>
+
+</beans:beans>

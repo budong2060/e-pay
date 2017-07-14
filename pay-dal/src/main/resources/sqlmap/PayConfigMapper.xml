@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.mybatis.PayConfigMapper">
+	<resultMap id="payConfig" type="com.pay.domain.PayConfig">
+		<result column="id" property="id" />
+		<result column="mch_name" property="mchName" />
+		<result column="mch_id" property="mchId" />
+		<result column="pay_way" property="payWay" />
+		<result column="pay_scene" property="payScene" />
+		<result column="status" property="status" />
+		<result column="config" property="config" typeHandler="com.pay.common.JsonTypeHandler" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<insert id="save" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into pay_config (
+			mch_name, mch_id , pay_way, pay_scene, status, config, create_time,  update_time
+		)
+		values (
+			#{mchName}, #{mchId}, #{payWay}, #{payScene}, #{status}, #{config, javaType=java.util.Map, jdbcType=VARCHAR}, #{createTime}, #{updateTime}
+		)
+	</insert>
+
+	<select id="get" resultMap="payConfig">
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		FROM pay_config
+		WHERE id = #{id}
+	</select>
+
+	<select id="findOnly" resultMap="payConfig">
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		FROM pay_config
+		WHERE mch_id = #{mchId} AND  pay_way = #{payWay} AND status = #{status} AND pay_scene = #{payScene}
+	</select>
+
+	<select id="findAll" resultMap="payConfig">
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		FROM pay_config ORDER BY id
+	</select>
+
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM pay_config WHERE 1 = 1
+		<if test="mchId != null">
+			AND mch_id = #{mchId}
+		</if>
+	</select>
+
+	<select id="getByPage" resultMap="payConfig">
+		SELECT id, account_name, account_no, pay_way, pay_scene, status, config, create_time,  update_time
+		FROM pay_config WHERE WHERE 1 = 1
+		<if test="mchId != null">
+			AND mch_id = #{mchId}
+		</if>
+		limit #{page}, #{size}
+	</select>
+
+
+	<delete id="delete" flushCache="true">
+		update pay_config SET status = 0, update_time = SYSDATE() WHERE id = #{id}
+	</delete>
+
+	<update id="update" flushCache="true">
+		update pay_config
+		<set>
+			<if test="mchId != null">
+				mch_id=#{mchId},
+			</if>
+			<if test="mchName != null">
+				mch_name=#{mchName},
+			</if>
+			<if test="payWay != null">
+				pay_way=#{payWay},
+			</if>
+			<if test="payScene != null">
+				pay_scene=#{payScene},
+			</if>
+			<if test="status != null">
+				status=#{status},
+			</if>
+			<if test="config != null">
+				config=#{config, javaType=java.util.Map, jdbcType=VARCHAR}
+			</if>
+			<if test="updateTime!= null">
+				update_time=#{updateTime}
+			</if>
+		</set>
+		<where>id=#{id}</where>
+	</update>
+
+</mapper>

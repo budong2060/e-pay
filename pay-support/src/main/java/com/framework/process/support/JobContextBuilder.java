@@ -33,7 +33,7 @@ public class JobContextBuilder {
         //构建NodeWapper
         NodeWapper rootWapper = new NodeWapper();
         Object obj = applicationContext.getBean(nodeNameHolder.getNodeName());
-        rootWapper.setNode(Node.class.cast(obj));
+        rootWapper.setNode(Node.class.cast(obj), true);
         rootWapper.setDecider(buildDecider(nodeNameHolder.getDeciderHolder()));
         buildChildrenWapper(rootWapper, nodeNameHolder.getNodeHolders());
         jobContext.setRootNode(rootWapper);
@@ -72,6 +72,7 @@ public class JobContextBuilder {
             decider = new NodeExecutionDecider();
             decider.setDecide(deciderHolder.getDecide());
             decider.setId(deciderHolder.getName());
+            decider.setExpression(deciderHolder.getExpression());
         }
         return decider;
     }

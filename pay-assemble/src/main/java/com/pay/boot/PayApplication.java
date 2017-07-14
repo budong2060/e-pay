@@ -25,7 +25,7 @@ public class PayApplication {
     @Bean
     public EmbeddedServletContainerFactory getServletContainerFactory() {
         TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-        factory.setPort(8066);
+        factory.setPort(8099);
         factory.setSessionTimeout(30, TimeUnit.MINUTES);
 //        factory.addErrorPages();
         return factory;

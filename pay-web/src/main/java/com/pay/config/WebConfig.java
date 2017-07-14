@@ -1,5 +1,6 @@
 package com.pay.config;
 
+import com.pay.common.PayHandlerExceptionResolver;
 import com.pay.intercepter.AllInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.add(new PayHandlerExceptionResolver());
         super.configureHandlerExceptionResolvers(exceptionResolvers);
     }
 

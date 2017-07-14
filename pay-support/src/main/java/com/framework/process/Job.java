@@ -1,5 +1,9 @@
 package com.framework.process;
 
+import com.framework.process.domain.Domain;
+import com.framework.process.result.Result;
+import com.framework.process.support.SimpleJobFactory;
+
 /**
  * @Vesrion 1.0
  * @Author heyinbo
@@ -18,14 +22,18 @@ public abstract class Job {
      * job 容器
      */
     private JobContext jobContext;
+    /**
+     * jobFactory
+     */
+    private SimpleJobFactory jobFactory;
 
     /**
      * start execute
      */
-    public abstract void execute();
+    public abstract Result execute(Domain domain);
 
     public JobContext getJobContext() {
-        return this.jobContext;
+        return jobFactory.buildContext();
     }
 
     public String getId() {
@@ -46,5 +54,13 @@ public abstract class Job {
 
     public void setJobContext(JobContext jobContext) {
         this.jobContext = jobContext;
+    }
+
+    public SimpleJobFactory getJobFactory() {
+        return jobFactory;
+    }
+
+    public void setJobFactory(SimpleJobFactory jobFactory) {
+        this.jobFactory = jobFactory;
     }
 }

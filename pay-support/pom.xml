@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>e-pay</groupId>
-            <artifactId>pay-dal</artifactId>
+            <artifactId>pay-common</artifactId>
         </dependency>
     </dependencies>
 

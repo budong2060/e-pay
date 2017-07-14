@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pay.mybatis.PayAccountMapper">
+
+	<sql id="commCols">
+		id id, user_id userId, account_id accountId, user_name userName
+	</sql>
+
+	<insert id="save" parameterType="payAccount" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+		 insert into pay_account(user_id,account_id,user_name)
+		 values(#{userId},#{accountId},#{userName})
+	</insert>
+
+	<select id="update" flushCache="true">
+		update pay_account
+		<set>
+			user_name=#{userName}
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</select>
+</mapper>
