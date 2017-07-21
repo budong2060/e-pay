@@ -7,18 +7,69 @@
 		id id, user_id userId, order_no orderNo, order_type orderType, trade_time tradeTime, pay_way payWay,
 		trade_no tradeNo, trade_amount tradeAmount, trade_finish_time tradeFinishTime, trade_status tradeStatus,
 		third_trade_amount thirdTradeAmount, third_trade_no thirdTradeNo, trade_desc tradeDesc, notify_url notifyUrl,
-		mch_id mchId, create_time createTime, update_time updateTime
+		mch_id mchId,notify_code notifyCode, create_time createTime, update_time updateTime
 	</sql>
 
 	<insert id="save" parameterType="payPayment" flushCache="true" useGeneratedKeys="true" keyProperty="id">
 		 insert into pay_payment(user_id, order_no, order_type, trade_time, pay_way, trade_no, trade_amount,
-		 	trade_finish_time, trade_status, third_trade_amount, third_trade_no, trade_desc, notify_url, mch_id, create_time, update_time)
+		 	trade_finish_time, trade_status, third_trade_amount, third_trade_no, trade_desc, notify_url, mch_id, notify_code, create_time, update_time)
 		 values(#{userId}, #{orderNo}, #{orderType}, #{tradeTime}, #{payWay}, #{tradeNo}, #{tradeAmount},
-		  	#{tradeFinishTime},#{tradeStatus},#{thirdTradeAmount},#{thirdTradeNo},#{tradeDesc},#{notifyUrl},#{mchId}, NOW(), NOW())
+		  	#{tradeFinishTime},#{tradeStatus},#{thirdTradeAmount},#{thirdTradeNo},#{tradeDesc},#{notifyUrl},#{mchId}, #{notifyCode}, NOW(), NOW())
 	</insert>
 
 	<select id="findByOrderNo" resultType="payPayment">
 		select <include refid="commCols"/> from pay_payment WHERE order_no = #{orderNo} AND mch_id = #{mchId}
 	</select>
+
+	<select id="findByTradeNo" resultType="payPayment">
+		select <include refid="commCols"/> from pay_payment WHERE trade_no = #{tradeNo}
+	</select>
+
+	<update id="update" parameterType="payPayment" flushCache="true">
+		update pay_payment
+		<set>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="orderNo != null">
+				order_no = #{orderNo},
+			</if>
+			<if test="orderType != null">
+				order_type = #{orderType},
+			</if>
+			<if test="tradeTime != null">
+				trade_time = #{tradeTime},
+			</if>
+			<if test="payWay != null">
+				pay_way = #{payWay},
+			</if>
+			<if test="tradeNo != null">
+				trade_no = #{tradeNo},
+			</if>
+			<if test="tradeAmount != null">
+				trade_amount = #{tradeAmount},
+			</if>
+			<if test="tradeFinishTime != null">
+				trade_finish_time = #{tradeFinishTime},
+			</if>
+			<if test="tradeStatus != null">
+				trade_status = #{tradeStatus},
+			</if>
+			<if test="thirdTradeAmount != null">
+				third_trade_amount = #{thirdTradeAmount},
+			</if>
+			<if test="thirdTradeNo != null">
+				third_trade_no = #{thirdTradeNo},
+			</if>
+			<if test="tradeDesc != null">
+				trade_desc = #{tradeDesc},
+			</if>
+			<if test="notifyCode != null">
+				notify_code = #{notifyCode},
+			</if>
+			update_time = NOW()
+		</set>
+		<where>id=#{id}</where>
+	</update>
 
 </mapper>

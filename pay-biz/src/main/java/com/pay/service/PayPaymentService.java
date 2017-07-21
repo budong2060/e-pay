@@ -13,4 +13,11 @@ public interface PayPaymentService {
      */
     PayResult prepay(PayPayment payPayment);
 
+    /**
+     *
+     * @param payPayment
+     * @return
+     */
+    PayResult dealPay(PayPayment payPayment);
+
 }

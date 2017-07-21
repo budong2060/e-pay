@@ -20,6 +20,9 @@ public class MapUtil {
         }
         StringBuffer sb = new StringBuffer();
         for (Map.Entry entry : params.entrySet()) {
+            if(null == entry.getKey() || null == entry.getValue()) {
+                continue;
+            }
             sb.append(entry.getKey());
             sb.append('=');
             sb.append(entry.getValue());

@@ -98,24 +98,5 @@ public class PayConfigController {
 //        return result;
 //    }
 //
-//    /**
-//     * 参数校验异常处理
-//     * @param error
-//     * @return
-//     */
-//    @ResponseBody
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException error) {
-//        BaseResult result = new BaseResult(PayResultEnum.ILLEGAL_ARGUMENTS);
-//        result.setDescription(error.getMessage());
-//        BindingResult bindingResult = error.getBindingResult();
-//        if(null != bindingResult) {
-//            FieldError fieldError = bindingResult.getFieldError();
-//            if(null != fieldError) {
-//                result.setDescription(fieldError.getDefaultMessage());
-//            }
-//        }
-//        return result;
-//    }
 
 }

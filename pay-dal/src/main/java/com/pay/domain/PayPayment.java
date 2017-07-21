@@ -2,7 +2,10 @@ package com.pay.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,22 +16,27 @@ public class PayPayment extends BaseDomain {
     /**
      * 商户号
      */
+    @NotEmpty(message = "商户ID不能为空")
     private String mchId;
     /**
      * 支付用户ID
      */
+    @NotEmpty(message = "支付用户ID不能为空")
     private String userId;
     /**
      * 订单号
      */
+    @NotEmpty(message = "支付订单号不能为空")
     private String orderNo;
     /**
      * 订单类型
      */
+    @NotNull(message = "支付订单类型不能为空")
     private Integer orderType;
     /**
      * 支付渠道
      */
+    @NotNull(message = "支付渠道不能为空")
     private Integer payWay;
     /**
      * 商户流水号
@@ -37,6 +45,7 @@ public class PayPayment extends BaseDomain {
     /**
      * 支付金额
      */
+    @DecimalMin(value = "0", message = "支付金额必须大于0")
     private BigDecimal tradeAmount = new BigDecimal(0.00);
     /**
      * 支付下单时间
@@ -69,7 +78,16 @@ public class PayPayment extends BaseDomain {
     /**
      * 回调业务系统地址
      */
+    @NotEmpty(message = "支付回调地址不能为空")
     private String notifyUrl;
+    /**
+     * 0-未通知，1-已通知
+     */
+    private Integer notifyCode;
+    /**
+     * 微信授权码
+     */
+    private String code;
 
     public String getMchId() {
         return mchId;
@@ -189,6 +207,22 @@ public class PayPayment extends BaseDomain {
 
     public void setNotifyUrl(String notifyUrl) {
         this.notifyUrl = notifyUrl;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Integer getNotifyCode() {
+        return notifyCode;
+    }
+
+    public void setNotifyCode(Integer notifyCode) {
+        this.notifyCode = notifyCode;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.pay.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.framework.process.domain.Domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**

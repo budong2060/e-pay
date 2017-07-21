@@ -43,7 +43,20 @@ public enum PayResultEnum {
 
 	PAY_HAS_FINISH("PAY_HAS_FINISH", "该支付已经完成", "201"),
 
+	PAY_RESULT_PARSE_FAIL("PAY_RESULT_PARSE_FAIL", "支付结果解析失败", "204"),
+
 	PAY_PREPAY_FAIL("PAY_PREPAY_FAIL", "预支付失败", "205"),
+
+	PAY_FAIL("PAY_FAIL", "支付失败", "206"),
+
+	PAY_AUTHORIZE_FAIL("PAY_AUTHORIZE_FAIL", "支付授权失败", "207"),
+
+	INVALID_TRADE_NO("INVALID_TRADE_NO", "无效商户订单号", "208"),
+
+	//====================退款 start 2开头==========================
+	REFUND_AMOUNT_OVERDUE("REFUND_AMOUNT_OVERDUE", "退款金额超限", "301"),
+
+	REFUND_FAIL("REFUND_FAIL", "微信退款失败", "303"),
 
 	;
 

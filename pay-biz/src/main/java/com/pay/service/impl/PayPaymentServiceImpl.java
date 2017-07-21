@@ -24,4 +24,9 @@ public class PayPaymentServiceImpl implements PayPaymentService {
         PayResult result = (PayResult) payJob.execute(payPayment);
         return result;
     }
+
+    @Override
+    public PayResult dealPay(PayPayment payPayment) {
+        return null;
+    }
 }

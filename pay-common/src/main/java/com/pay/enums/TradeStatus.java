@@ -15,6 +15,8 @@ public enum TradeStatus {
 	TRADE_SUCCESS(3, "支付成功"),
 	/** 支付失败 */
 	TRADE_FAIL(4, "支付失败"),
+	/** 支付订单已关闭 */
+	TRADE_CLOSED(5, "支付订单已关闭"),
 	;
 
 	/**
@@ -49,7 +51,7 @@ public enum TradeStatus {
 	 * 通过枚举<code>code</code>获得枚举
 	 *
 	 * @param code
-	 * @return PayResultEnum
+	 * @return TradeStatus
 	 */
 	public static TradeStatus getByCode(int code) {
 		for (TradeStatus _enum : values()) {

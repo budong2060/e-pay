@@ -17,5 +17,12 @@ public interface PayPaymentMapper extends BaseMapper<PayPayment> {
      */
     PayPayment findByOrderNo(@Param("orderNo") String orderNo, @Param("mchId") String mchId);
 
+    /**
+     * 根据tradeno查询支付记录
+     * @param tradeNo
+     * @return
+     */
+    PayPayment findByTradeNo(@Param("tradeNo") String tradeNo);
+
 }
 

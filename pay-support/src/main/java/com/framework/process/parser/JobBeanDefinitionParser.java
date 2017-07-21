@@ -88,9 +88,9 @@ public class JobBeanDefinitionParser extends AbstractBeanDefinitionParser {
         nodeBeanDefinitionBuilder.addPropertyValue("name", name);
         AbstractBeanDefinition beanDefinition = nodeBeanDefinitionBuilder.getBeanDefinition();
 
-        if(validate(name, beanDefinition, parserContext)) {
-            throw new RuntimeException("配置错误，同一beanName不能对应多个beanClass");
-        }
+//        if(validate(name, beanDefinition, parserContext)) {
+//            throw new RuntimeException("配置错误，同一beanName不能对应多个beanClass,");
+//        }
 
         BeanDefinitionReaderUtils.registerBeanDefinition(new BeanDefinitionHolder(
                 beanDefinition, name), parserContext.getRegistry());

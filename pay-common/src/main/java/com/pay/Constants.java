@@ -24,7 +24,17 @@ public abstract class Constants {
     /**
      * 微信统一下单
      */
-    public static final String WX_PAY_UNIFIEDORDER_URL = "wx.pay.unifiedorder";
+    public static final String WX_PAY_UNIFIEDORDER = "wx.pay.unifiedorder";
+    /**
+     * 微信退款
+     */
+    public static final String WX_PAY_REFUND = "wx.pay.refund";
+    /**
+     * 微信授权
+     */
+    public static final String WX_PAY_AUTHORIZE = "wx.pay.authorize";
 
+//    public static String WX_JS_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+    public static final String WX_ACCESS_TOKEN = "wx.access.token";
 
 }

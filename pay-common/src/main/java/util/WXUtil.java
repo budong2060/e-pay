@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Map;
 import java.util.Random;
 
 public class WXUtil {
@@ -11,5 +12,17 @@ public class WXUtil {
 
 	public static String getTimeStamp() {
 		return String.valueOf(System.currentTimeMillis() / 1000);
+	}
+
+	/**
+	 *
+	 * @param params
+	 * @param key
+	 * @return
+	 */
+	public static String getSign(Map<String, String> params, String key) {
+		String urlParams = MapUtil.map2UrlParams(params);
+		urlParams = urlParams + "&key=" + key;
+		return MD5Util.MD5Encode(urlParams, "UTF-8").toUpperCase();
 	}
 }

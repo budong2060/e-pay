@@ -16,4 +16,21 @@ public interface WxPayClient {
      */
     Map<String, String> doPrepare(String requestXml);
 
+    /**
+     * 微信退款
+     * @param requestXml
+     * @return
+     */
+    Map<String, String> doRefund(String requestXml);
+
+    /**
+     * 获取微信openId
+     * @param appid
+     * @param secret
+     * @param code
+     * @return
+     */
+    Map<String, String>  accessToken(String appid, String secret, String code);
+
+    void other();
 }

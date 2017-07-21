@@ -9,8 +9,26 @@
 	<job id="payJob" class="com.framework.process.SimpleJob">
 		<context name="jobContext" class="com.framework.process.DefaultJobContext">
 			<node name="checkNode" class="com.pay.logic.node.PayCheckNode">
-				<!--<decision name="payWay" expression="#{domain.name}" />-->
-				<node name="prepareNode" class="com.pay.logic.node.wx.WXAppPayNode" />
+				<decision name="payWay" expression="#{'payWay_' + domain.payWay}" />
+				<!-- 微信app渠道 -->
+				<node name="payWay_16" class="com.pay.logic.node.wx.WXPayNode" />
+				<!-- 微信公众号渠道 -->
+				<node name="payWay_14" class="com.pay.logic.node.wx.WXPayNode" />
+			</node>
+		</context>
+	</job>
+
+
+	<!-- 微信退款请求Job -->
+	<job id="refundJob" class="com.framework.process.SimpleJob">
+		<context name="jobContext" class="com.framework.process.DefaultJobContext">
+			<node name="checkNode" class="com.pay.logic.node.PayCheckNode">
+				<!--<decision name="payWay" expression="#{'payWay_' + domain.payWay}" />-->
+				<node name="payWay_16" class="com.pay.logic.node.RefundCheckNode">
+					<node name="WXRefundNode" class="com.pay.logic.node.wx.WXRefundNode">
+						<node name="RefundUpdateNode" class="com.pay.logic.node.wx.RefundUpdateNode" />
+					</node>
+				</node>
 			</node>
 		</context>
 	</job>
