@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>e-pay</groupId>
-            <artifactId>pay-dal</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>e-pay</groupId>
             <artifactId>pay-logic-process</artifactId>
         </dependency>
     </dependencies>

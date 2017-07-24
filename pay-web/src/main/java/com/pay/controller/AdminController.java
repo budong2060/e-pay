@@ -12,7 +12,7 @@ public class AdminController extends BaseController {
     @RequestMapping("/index")
     public String index() {
 
-        return "hello";
+        return "index";
     }
 
 }

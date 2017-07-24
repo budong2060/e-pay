@@ -10,11 +10,9 @@
         <version>1.5.4.RELEASE</version>
     </parent>
 
-    <packaging>war</packaging>
-
     <groupId>e-pay</groupId>
     <artifactId>e-pay</artifactId>
-    <!--<packaging>pom</packaging>-->
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>pay-web</module>
