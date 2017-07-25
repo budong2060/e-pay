@@ -18,7 +18,8 @@ public class PaypaymentController extends BaseController {
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public Object pay(@Valid @RequestBody PayPayment payPayment) {
-        return null;
+//        payPaymentService.prepay(payPayment);
+        return payPaymentService.prepay(payPayment);
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)

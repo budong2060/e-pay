@@ -13,11 +13,14 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver;
 
 import javax.servlet.Filter;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Halbert on 2017/7/2.
@@ -32,15 +35,46 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-    @Bean
-    public InternalResourceViewResolver viewResolver() {
+//    @Bean
+//    public InternalResourceViewResolver viewResolver() {
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setPrefix("/WEB-INF/jsp/");
+//        resolver.setSuffix(".jsp");
+//        resolver.setContentType("text/html; charset=UTF-8");
+//        return resolver;
+//    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        //vm
+        VelocityLayoutViewResolver vmResolver = new VelocityLayoutViewResolver();
+        vmResolver.setSuffix(".vm");
+        vmResolver.setToolboxConfigLocation("/config/toolbox.xml");
+        vmResolver.setContentType("text/html; charset=UTF-8");
+        vmResolver.setViewNames("*.vm");
+        registry.viewResolver(vmResolver);
+
+        //jsp
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         resolver.setContentType("text/html; charset=UTF-8");
-        return resolver;
+        registry.viewResolver(resolver);
     }
 
+    @Bean
+    public VelocityConfigurer viewResolver() {
+        VelocityConfigurer configurer = new VelocityConfigurer();
+        configurer.setResourceLoaderPath("classpath:/templates/");
+        Map<String, Object> velocityProperties = new HashMap<String, Object>();
+        velocityProperties.put("input.encoding", "UTF-8");
+        velocityProperties.put("output.encoding", "UTF-8");
+        velocityProperties.put("parser.pool.size", 100);
+        velocityProperties.put("velocimacro.library.autoreload", true);
+        velocityProperties.put("velocimacro.context.localscope", true);
+        configurer.setVelocityPropertiesMap(velocityProperties);
+        return configurer;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

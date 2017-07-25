@@ -1,4 +1,4 @@
-package com.pay.logic.node.wx;
+package com.pay.biz.handler.node.wx;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
@@ -10,11 +10,9 @@ import com.pay.domain.PayRefund;
 import com.pay.enums.PayResultEnum;
 import com.pay.enums.RefundStatus;
 import com.pay.exception.PayException;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.mybatis.PayConfigMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import util.MD5Util;
-import util.MapUtil;
 import util.WXUtil;
 import util.XMLUtil;
 

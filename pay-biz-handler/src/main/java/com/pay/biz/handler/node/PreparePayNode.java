@@ -1,9 +1,9 @@
-package com.pay.logic.node;
+package com.pay.biz.handler.node;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.domain.BaseDomain;
-import com.pay.logic.result.PayResult;
 
 /**
  * Created by admin on 2017/7/5.

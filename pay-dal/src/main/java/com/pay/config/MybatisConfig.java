@@ -5,8 +5,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
+//import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
 import org.springframework.context.annotation.*;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -70,14 +71,14 @@ public class MybatisConfig {
      * DataSourceTransactionManagerAutoConfiguration
      * @return
      */
-    @Primary
-    @Bean
-    public TransactionProperties getTxProperties() {
-        TransactionProperties txProperties = new TransactionProperties();
-        txProperties.setDefaultTimeout(60); //设置事务过期事件
-        txProperties.setRollbackOnCommitFailure(true); //设置事务提交失败回滚
-        return txProperties;
-    }
+//    @Primary
+//    @Bean
+//    public TransactionProperties getTxProperties() {
+//        TransactionProperties txProperties = new TransactionProperties();
+//        txProperties.setDefaultTimeout(60); //设置事务过期事件
+//        txProperties.setRollbackOnCommitFailure(true); //设置事务提交失败回滚
+//        return txProperties;
+//    }
 
 
     public String getUserName() {

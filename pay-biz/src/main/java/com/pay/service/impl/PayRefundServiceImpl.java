@@ -2,7 +2,7 @@ package com.pay.service.impl;
 
 import com.framework.process.SimpleJob;
 import com.pay.domain.PayRefund;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 
 import javax.annotation.Resource;
 

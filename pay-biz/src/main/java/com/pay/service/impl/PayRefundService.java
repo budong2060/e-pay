@@ -1,7 +1,7 @@
 package com.pay.service.impl;
 
 import com.pay.domain.PayRefund;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 
 /**
  * Created by admin on 2017/7/5.

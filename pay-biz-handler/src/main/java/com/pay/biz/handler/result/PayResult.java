@@ -1,4 +1,4 @@
-package com.pay.logic.result;
+package com.pay.biz.handler.result;
 
 import com.pay.enums.PayResultEnum;
 import org.apache.commons.lang3.builder.ToStringBuilder;

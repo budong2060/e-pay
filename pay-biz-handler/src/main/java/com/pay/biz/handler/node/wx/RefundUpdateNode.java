@@ -1,11 +1,11 @@
-package com.pay.logic.node.wx;
+package com.pay.biz.handler.node.wx;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
 import com.pay.domain.BaseDomain;
 import com.pay.domain.PayRefund;
 import com.pay.enums.PayResultEnum;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.mybatis.PayRefundMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,7 +3,7 @@ package com.pay.common;
 import com.framework.process.exception.JobException;
 import com.pay.enums.PayResultEnum;
 import com.pay.exception.PayException;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -58,8 +58,9 @@ public class PayHandlerExceptionResolver extends DefaultHandlerExceptionResolver
 			ServletOutputStream os = null;
 			try {
 				response.setContentType("application/json; charset=UTF-8");
+				String json = JsonUtil.toString(result);
 				os = response.getOutputStream();
-				os.print(JsonUtil.toString(result));
+				os.print(new String(json.getBytes("UTF-8"), "ISO-8859-1"));
 				os.flush();
 				return null;
 			} catch (Exception e) {

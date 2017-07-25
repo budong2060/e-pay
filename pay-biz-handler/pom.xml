@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pay-logic-process</artifactId>
+    <artifactId>pay-biz-handler</artifactId>
 
     <dependencies>
         <dependency>

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>e-pay</groupId>
-            <artifactId>pay-logic-process</artifactId>
+            <artifactId>pay-biz-handler</artifactId>
         </dependency>
     </dependencies>
 

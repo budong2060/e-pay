@@ -1,4 +1,4 @@
-package com.pay.logic.node.wx;
+package com.pay.biz.handler.node.wx;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
@@ -10,7 +10,7 @@ import com.pay.domain.PayPayment;
 import com.pay.enums.PayResultEnum;
 import com.pay.enums.PayWay;
 import com.pay.exception.PayException;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.mybatis.PayConfigMapper;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
     private PayConfigMapper payConfigMapper;
 
     @Autowired
-    private WxPayClient wxPayClient;
+    protected WxPayClient wxPayClient;
 
     @Override
     public void process(DefaultJobContext<BaseDomain, PayResult> context, BaseDomain baseDomain) {
@@ -47,16 +47,22 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
             throw new PayException(PayResultEnum.DATA_HAS_NOT_EXSIT, "第三方账户不存在");
         }
         Map<String, String> config = payConfig.getConfig();
-        String prepareXml = genPrepareXml(config, domain);
+
+        //1.构造预支付参数
+        Map<String, String> preParams = buildParams(config, domain);
+        //2.预支付签名
+        String sign = WXUtil.getSign(preParams, config.get(Constants.WX_PARTNER_KEY));
+        logger.info(">>商户订单号:{},微信统一下单签名:{}", domain.getTradeNo(), sign);
+        preParams.put("sign", sign);
+        //3.预支付下单
+        String prepareXml = MapUtil.map2Xml(preParams);
         Map<String, String> prepayResult = wxPayClient.doPrepare(prepareXml);
         if(!"SUCCESS".equals(prepayResult.get("result_code"))) {
             throw new PayException(PayResultEnum.PAY_PREPAY_FAIL, prepayResult.get("err_code_des"));
         }
-
-        //构造结果集
+        //4.返回结果
 //        String prepayId = prepayResult.get("prepay_id");
         Map<String, String> resultData = buildResult(config, prepayResult);
-
         PayResult<Object> result = new PayResult<>();
         result.setData(resultData);
         result.setResultEnum(PayResultEnum.EXECUTE_SUCCESS);
@@ -64,18 +70,55 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
         return;
     }
 
-
     /**
-     * 获取微信OpenId
+     * 构建预支付参数
+     * @param config
+     * @param payPayment
      * @return
      */
-    private String getOpenId(Map<String, String> config, String code) {
-        Map<String, String> result = wxPayClient.accessToken(config.get(Constants.WX_APPID), config.get(Constants.APPSECRET), code);
-        String openId = result.get("openid");
-        if (StringUtils.isEmpty(openId)) {
-            throw new PayException(PayResultEnum.PAY_PREPAY_FAIL, "获取微信openid失败");
+    protected Map<String, String> buildParams(Map<String, String> config, PayPayment payPayment) {
+        Map<String, String> sortParams = new TreeMap<>();
+        sortParams.put("appid", config.get(Constants.WX_APPID));
+        sortParams.put("mch_id", config.get(Constants.WX_MCH_ID));
+        sortParams.put("body", payPayment.getTradeDesc());
+        sortParams.put("nonce_str", WXUtil.getNonceStr());
+        sortParams.put("out_trade_no", payPayment.getTradeNo());
+        sortParams.put("spbill_create_ip", RemoteAdsUtil.getRemoteAddress());
+//        sortParams.put("spbill_create_ip", payPayment.getRequestId());
+
+        PayWay payWay = PayWay.getByCode(payPayment.getPayWay());
+        sortParams.put("trade_type", payWay.getType());
+
+        //设置回调地址，若有配置则取配置文件，否则取默认地址
+        String notifyUrl = config.get(Constants.NOTIFY_URL);
+        if(StringUtils.hasLength(notifyUrl)) {
+            sortParams.put("notify_url", notifyUrl);
+        } else {
+            //TODO
+            String host = PropertiesUtil.getProperty(Constants.PAY_HOST);
+            sortParams.put("notify_url", host);
         }
-        return openId;
+        //计算金额，元转分
+        BigDecimal tradeAmount = payPayment.getTradeAmount();
+        int totalFee = tradeAmount.multiply(new BigDecimal(100)).intValue();
+        sortParams.put("total_fee", String.valueOf(totalFee));
+        //设置过期时间
+        Date timeExpire = payPayment.getTimeExpire();
+        if(null != timeExpire) {
+            sortParams.put("time_expire", DateFormatUtils.format(timeExpire, "yyyyMMddHHmmss"));
+        }
+        return sortParams;
+    }
+
+    /**
+     * 扩展参数
+     * @param config
+     * @param params
+     * @param payPayment
+     * @return
+     */
+    protected Map<String, String> extParams(Map<String, String> config, Map<String, String> params, PayPayment payPayment) {
+        return params;
     }
 
     /**
@@ -101,6 +144,7 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
         return data;
     }
 
+
     /**
      * 构造微信统一下单参数
      * @param config
@@ -120,11 +164,6 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
 
         PayWay payWay = PayWay.getByCode(payPayment.getPayWay());
         sortParams.put("trade_type", payWay.getType());
-
-        //设置code
-        if(StringUtils.hasLength(payPayment.getCode())) {
-            sortParams.put("openid", getOpenId(config, payPayment.getCode()));
-        }
 
         //设置回调地址，若有配置则取配置文件，否则取默认地址
         String notifyUrl = config.get(Constants.NOTIFY_URL);

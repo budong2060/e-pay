@@ -55,15 +55,20 @@ public class JsonUtil {
      * @return
      */
     public static String toString(Object obj) {
+        StringWriter sw = null;
         try {
             ObjectMapper e = getMapperInstance();
-            StringWriter sw = new StringWriter();
+            sw = new StringWriter();
             JsonGenerator gen = (new JsonFactory()).createJsonGenerator(sw);
             e.writeValue(gen, obj);
             return sw.toString();
         } catch (IOException e) {
             LOGGER.error("json转换失败，原因:{}", e);
             return null;
+        } finally {
+            try {
+                sw.close();
+            } catch (Exception e) {}
         }
     }
 

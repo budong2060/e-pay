@@ -15,4 +15,10 @@ public class AdminController extends BaseController {
         return "index";
     }
 
+    @RequestMapping("/vm")
+    public String test() {
+
+        return "test";
+    }
+
 }

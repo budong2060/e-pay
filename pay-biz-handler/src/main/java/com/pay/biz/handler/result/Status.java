@@ -1,4 +1,4 @@
-package com.pay.logic.result;
+package com.pay.biz.handler.result;
 
 /**
  * 返回结果状态。

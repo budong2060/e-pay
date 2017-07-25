@@ -50,7 +50,7 @@ public class PayPayment extends BaseDomain {
     /**
      * 支付下单时间
      */
-    private Date tradeTime;
+    private Date tradeTime = new Date();
     /**
      * 支付完成时间
      */

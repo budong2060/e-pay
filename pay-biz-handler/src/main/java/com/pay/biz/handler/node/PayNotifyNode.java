@@ -1,4 +1,4 @@
-package com.pay.logic.node;
+package com.pay.biz.handler.node;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
@@ -7,7 +7,7 @@ import com.pay.client.result.NotifyResult;
 import com.pay.client.vo.NotifyVo;
 import com.pay.domain.BaseDomain;
 import com.pay.domain.PayPayment;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.mybatis.PayPaymentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

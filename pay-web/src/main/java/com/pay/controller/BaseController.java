@@ -1,11 +1,9 @@
 package com.pay.controller;
 
 import com.pay.client.WxPayClient;
-import com.pay.domain.PayAccount;
 import com.pay.domain.PayPayment;
 import com.pay.enums.PayResultEnum;
-import com.pay.logic.result.BaseResult;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.service.PayAccountService;
 import com.pay.service.PayPaymentService;
 import org.slf4j.Logger;
@@ -15,8 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

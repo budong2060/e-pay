@@ -1,4 +1,4 @@
-package com.pay.logic.node;
+package com.pay.biz.handler.node;
 
 import com.framework.process.AbstractNode;
 import com.framework.process.DefaultJobContext;
@@ -7,7 +7,7 @@ import com.pay.domain.PayPayment;
 import com.pay.enums.PayResultEnum;
 import com.pay.enums.TradeStatus;
 import com.pay.exception.PayException;
-import com.pay.logic.result.PayResult;
+import com.pay.biz.handler.result.PayResult;
 import com.pay.mybatis.PayPaymentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import util.BeanUtil;
