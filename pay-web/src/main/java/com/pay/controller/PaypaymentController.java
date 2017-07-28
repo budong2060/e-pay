@@ -11,19 +11,32 @@ import javax.validation.Valid;
  * Created by admin on 2017/7/20.
  */
 @RestController
-public class PaypaymentController extends BaseController {
+public class PayPaymentController extends BaseController {
 
     @Autowired
     private PayPaymentService payPaymentService;
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public Object pay(@Valid @RequestBody PayPayment payPayment) {
-//        payPaymentService.prepay(payPayment);
         return payPaymentService.prepay(payPayment);
     }
 
-    @RequestMapping(value = "/notify", method = RequestMethod.POST)
-    public Object payNotify() {
+    /**
+     * 根据订单号和类型查询
+     * @return
+     */
+    @RequestMapping(value = "/pay/{orderNo}/{orderType}", method = RequestMethod.GET)
+    public Object queryByOrderNo(@PathVariable("orderNo") String orderNo, @PathVariable Integer orderType) {
+
+        return null;
+    }
+
+    /**
+     * 根据商户流水号查询
+     * @return
+     */
+    @RequestMapping(value = "/pay/{tradeNo}", method = RequestMethod.GET)
+    public Object queryTradeNo(@PathVariable("tradeNo") String tradeNo) {
 
         return null;
     }

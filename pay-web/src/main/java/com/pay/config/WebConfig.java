@@ -26,7 +26,7 @@ import java.util.Map;
  * Created by Halbert on 2017/7/2.
  * WebMvc配置项
  */
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
@@ -53,6 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         vmResolver.setContentType("text/html; charset=UTF-8");
         vmResolver.setViewNames("*.vm");
         registry.viewResolver(vmResolver);
+        vmResolver.setCache(false);
 
         //jsp
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -79,7 +80,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 //        registry.addResourceHandler("/templates/*.html", "/templates/*.htm", "/templates/*.jsp").addResourceLocations("/templates/");
     }
 

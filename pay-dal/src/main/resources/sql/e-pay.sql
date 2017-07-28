@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2017-07-14 18:41:05
+Date: 2017-07-28 17:57:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -55,12 +55,11 @@ CREATE TABLE `pay_config` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of pay_config
 -- ----------------------------
-INSERT INTO `pay_config` VALUES ('7', '微信支付测试商户账户', '999999', '16', '1', '1', '{\"mchId\":\"1219977501\",\"certPath\":\"/wxapp/apiclient_cert.p12\",\"appSecret\":\"75ccdaddeb2677f79ca0cb9b5c143b23\",\"partnerKey\":\"510253c6d156990fbfdf6feab922c1e6\",\"appId\":\"wxab37c2f3bd7837d6\",\"paySignKey\":\"jnbrWCHLWVjTa6kLBIUIfm2eZno6nTX8iDY1Pi4k0J4sOvtGzmYh9D3MICaGKLLvAiCrEIyweEZNTxuAwWZhSuVAxJWixXcmCuYrWcLNNof4ybyDFkFxoDVrnPXrLbAy\",\"certPwd\":\"1219977501\"}', '2017-07-14 14:59:24', '2017-07-14 14:59:24');
 
 -- ----------------------------
 -- Table structure for pay_payment
@@ -69,6 +68,7 @@ DROP TABLE IF EXISTS `pay_payment`;
 CREATE TABLE `pay_payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gid` varchar(32) DEFAULT NULL COMMENT '全局ID',
+  `mch_id` varchar(32) DEFAULT NULL COMMENT '商户平台ID',
   `user_id` varchar(10) NOT NULL COMMENT '用户id',
   `order_no` varchar(32) NOT NULL COMMENT '支付订单号',
   `order_type` int(3) NOT NULL COMMENT '支付订单类型',
@@ -82,15 +82,16 @@ CREATE TABLE `pay_payment` (
   `third_trade_no` varchar(32) DEFAULT NULL COMMENT '第三方支付流水号',
   `trade_desc` varchar(256) DEFAULT NULL COMMENT '描述',
   `notify_url` varchar(256) DEFAULT NULL COMMENT '支付成功通知上游业务方地址',
-  `mch_id` varchar(32) DEFAULT NULL COMMENT '商户平台ID',
+  `notify_code` int(3) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pay_payment
 -- ----------------------------
+INSERT INTO `pay_payment` VALUES ('42', null, '999999', '234234', '234234', '1', '2017-07-25 15:17:39', '16', '201707250317396826', '20.00', null, '2', '0.00', null, 'test pay', 'www.baidu.com', null, '2017-07-25 15:17:39', '2017-07-25 15:17:39');
 
 -- ----------------------------
 -- Table structure for pay_payment_collect
@@ -119,9 +120,10 @@ CREATE TABLE `pay_refund` (
   `id` int(11) NOT NULL,
   `gid` varchar(32) DEFAULT NULL,
   `user_id` varchar(10) NOT NULL,
+  `mch_id` varchar(32) DEFAULT NULL,
   `trade_no` varchar(32) NOT NULL COMMENT '商户支付流水号',
   `refund_no` varchar(32) NOT NULL COMMENT '商户退款流水号',
-  `refund_way` int(3) NOT NULL COMMENT '退款渠道',
+  `pay_way` int(3) NOT NULL COMMENT '退款渠道',
   `refund_amount` decimal(10,2) DEFAULT NULL COMMENT '退款金额',
   `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
   `refund_status` int(11) DEFAULT NULL COMMENT '退款状态',
@@ -129,7 +131,7 @@ CREATE TABLE `pay_refund` (
   `third_refund_no` varchar(32) DEFAULT NULL COMMENT '第三方退款流水号',
   `refund_finish_time` datetime DEFAULT NULL COMMENT '退款完成时间',
   `notify_url` varchar(256) DEFAULT NULL COMMENT '退款通知地址',
-  `message_status` int(11) DEFAULT NULL COMMENT '是否通知',
+  `notify_code` int(11) DEFAULT NULL COMMENT '是否通知',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

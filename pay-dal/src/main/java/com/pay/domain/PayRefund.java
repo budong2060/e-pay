@@ -2,6 +2,7 @@ package com.pay.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,10 +15,12 @@ public class PayRefund extends BaseDomain {
     /**
      * 商户号
      */
+    @NotEmpty(message = "商户ID不能为空")
     private String mchId;
     /**
      * 支付用户ID
      */
+    @NotEmpty(message = "支付用户ID不能为空")
     private String userId;
     /**
      * 订单号
@@ -34,6 +37,7 @@ public class PayRefund extends BaseDomain {
     /**
      * 商户支付流水号
      */
+    @NotEmpty(message = "商户流水号不能为空")
     private String tradeNo;
     /**
      * 第三方支付流水号

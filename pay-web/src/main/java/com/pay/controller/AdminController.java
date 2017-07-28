@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminController extends BaseController {
 
+    @RequestMapping("/menu")
+    public String menu() {
+        return "menu";
+    }
+
     @RequestMapping("/index")
     public String index() {
 
@@ -17,7 +22,6 @@ public class AdminController extends BaseController {
 
     @RequestMapping("/vm")
     public String test() {
-
         return "test";
     }
 
