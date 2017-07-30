@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.schemea.hyb.com/schema/job"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+         http://www.schemea.hyb.com/schema/job http://www.schemea.hyb.com/schema/job/job.xsd
+         "
+	default-autowire="byName">
+
+	<job id="payJob" class="com.framework.process.SimpleJob">
+		<context name="jobContext" class="com.framework.process.DefaultJobContext">
+			<node name="PayCheckNode" class="com.pay.biz.handler.node.PayCheckNode">
+				<decision name="payWay" expression="#{'payWay_' + domain.payWay}" />
+				<!-- 微信app渠道 -->
+				<node name="payWay_16" class="com.pay.biz.handler.node.wx.WXPayNode" />
+				<!-- 微信公众号渠道 -->
+				<node name="payWay_14" class="com.pay.biz.handler.node.wx.WXPublicPayNode" />
+			</node>
+		</context>
+	</job>
+
+
+	<!-- 微信退款请求Job -->
+	<job id="refundJob" class="com.framework.process.SimpleJob">
+		<context name="jobContext" class="com.framework.process.DefaultJobContext">
+			<node name="PayCheckNode" class="com.pay.biz.handler.node.PayCheckNode">
+				<!--<decision name="payWay" expression="#{'refundWay_' + domain.payWay}" />-->
+				<node name="refundWay_16" class="com.pay.biz.handler.node.RefundCheckNode">
+					<node name="WXRefundNode" class="com.pay.biz.handler.node.wx.WXRefundNode">
+						<node name="RefundUpdateNode" class="com.pay.biz.handler.node.wx.RefundUpdateNode" />
+					</node>
+				</node>
+			</node>
+		</context>
+	</job>
+
+</beans:beans>
