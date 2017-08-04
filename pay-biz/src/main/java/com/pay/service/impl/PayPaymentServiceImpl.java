@@ -1,13 +1,17 @@
 package com.pay.service.impl;
 
 import com.framework.process.SimpleJob;
+import com.pay.common.Pager;
 import com.pay.domain.PayPayment;
 import com.pay.biz.handler.result.PayResult;
+import com.pay.mybatis.PayPaymentMapper;
 import com.pay.service.PayPaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by admin on 2017/7/5.
@@ -17,6 +21,9 @@ public class PayPaymentServiceImpl implements PayPaymentService {
 
     @Resource(name = "payJob")
     private SimpleJob payJob;
+
+    @Autowired
+    private PayPaymentMapper payPaymentMapper;
 
     @Transactional
     @Override
@@ -28,5 +35,15 @@ public class PayPaymentServiceImpl implements PayPaymentService {
     @Override
     public PayResult dealPay(PayPayment payPayment) {
         return null;
+    }
+
+    @Override
+    public Pager<PayPayment> query(PayPayment payPayment, int pageNum, int pageSize) {
+        long count = payPaymentMapper.count(payPayment);
+        List<PayPayment> list = null;
+        if (count > 0) {
+            list = payPaymentMapper.query(payPayment, (pageNum - 1) * pageSize, pageSize);
+        }
+        return new Pager<>(pageNum, pageSize, count, list);
     }
 }

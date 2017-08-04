@@ -25,6 +25,69 @@
 		select <include refid="commCols"/> from pay_payment WHERE trade_no = #{tradeNo}
 	</select>
 
+	<select id="count" resultType="long">
+		select count(*) from pay_payment
+		<where>
+			1= 1
+			<if test="mchId != null and accountId != ''">
+				and mch_id=#{mchId}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id=#{userId}
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				and order_no=#{orderNo}
+			</if>
+			<if test="orderType != null">
+				and order_type=#{orderType}
+			</if>
+			<if test="payWay != null">
+				and pay_way=#{payWay}
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				and trade_no=#{tradeNo}
+			</if>
+			<if test="thirdTradeNo != null and thirdTradeNo != ''">
+				and third_trade_no=#{thirdTradeNo}
+			</if>
+			<if test="tradeStatus != null">
+				and trade_status=#{tradeStatus}
+			</if>
+		</where>
+	</select>
+
+	<select id="query" resultType="payPayment">
+		select <include refid="commCols"/> from pay_payment
+		<where>
+			1= 1
+			<if test="t.mchId != null and t.mchId != ''">
+				and mch_id=#{t.mchId}
+			</if>
+			<if test="t.userId != null and t.userId != ''">
+				and user_id=#{t.userId}
+			</if>
+			<if test="t.orderNo != null and t.orderNo != ''">
+				and order_no=#{t.orderNo}
+			</if>
+			<if test="t.orderType != null">
+				and order_type=#{t.orderType}
+			</if>
+			<if test="t.payWay != null">
+				and pay_way=#{t.payWay}
+			</if>
+			<if test="t.tradeNo != null and t.tradeNo != ''">
+				and trade_no=#{t.tradeNo}
+			</if>
+			<if test="t.thirdTradeNo != null and t.thirdTradeNo != ''">
+				and third_trade_no=#{t.thirdTradeNo}
+			</if>
+			<if test="t.tradeStatus != null">
+				and trade_status=#{t.tradeStatus}
+			</if>
+		</where>
+		LIMIT #{pageNum}, #{pageSize}
+	</select>
+
 	<update id="update" parameterType="payPayment" flushCache="true">
 		update pay_payment
 		<set>

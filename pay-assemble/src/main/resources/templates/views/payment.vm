@@ -1,0 +1,89 @@
+#parse("/views/common/header.vm")
+<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    #parse("/views/common/navbar.vm")
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    #parse("/views/common/menubar.vm")
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">支付数据列表</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- TABLE HOVER -->
+                        <div class="panel">
+                            #*<div class="panel-heading">
+                                <h3 class="panel-title">Hover Row</h3>
+                            </div>*#
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th align="center">ID</th>
+                                        <th align="center">用户ID</th>
+                                        <th align="center">商户流水号</th>
+                                        <th align="center">订单号</th>
+                                        <th align="center">订单类型</th>
+                                        <th align="center">支付金额</th>
+                                        <th align="center">支付渠道</th>
+                                        <th align="center">支付状态</th>
+                                        <th align="center">支付时间</th>
+                                        <th align="center">第三方流水号</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        #if(!${pager}) {
+                                        暂无数据
+                                        #else
+                                        <div class="panel-body">
+                                            #foreach($payment in $!{pager.list})
+                                                <tr>
+                                                    <td align="center">$!{payment.id}</td>
+                                                    <td>$!{payment.userId}</td>
+                                                    <td>$!{payment.tradeNo}</td>
+                                                    <td>$!{payment.orderNo}</td>
+                                                    <td align="center">$!{payment.orderType}</td>
+                                                    <td align="center">$!{payment.tradeAmount}</td>
+                                                    <td align="center">$!{payment.payWay}</td>
+                                                    <td align="center">$!{payment.tradeStatus}</td>
+                                                    <td>$!{payment.tradeTime}</td>
+                                                    <td>$!{payment.thirdTradeNo}</td>
+                                                </tr>
+                                            #end
+                                        </div>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- END TABLE HOVER -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+##    <footer>
+##        <div class="container-fluid">
+##            <p class="copyright">&copy; 2017 <a href="#" target="_blank">Theme I Need</a>. All Rights Reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+##        </div>
+##    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/scripts/klorofil-common.js"></script>
+</body>
+
+</html>

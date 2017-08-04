@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class BaseDomain implements Domain {
 
-    private int id;
+    private Integer id;
 
     @JsonIgnore
     private String requestId;
@@ -23,11 +23,11 @@ public class BaseDomain implements Domain {
      */
     private Date updateTime = new Date();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

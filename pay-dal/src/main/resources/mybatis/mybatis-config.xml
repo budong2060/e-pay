@@ -12,6 +12,7 @@
 			说明：postgreSQL，MySQL，SQLSERVER都支持JdbcType.NULL类型，Oracle是不支持，适配的时候也因为这个问题导致mybatis报错
 		 -->
         <setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="logImpl" value="STDOUT_LOGGING" />
 	</settings>
 	
 	<!-- 跨多个模块的xml文件用到的需要在这里配置
