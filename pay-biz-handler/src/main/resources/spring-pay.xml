@@ -6,6 +6,7 @@
          "
 	default-autowire="byName">
 
+	<!-- 预支付job -->
 	<job id="payJob" class="com.framework.process.SimpleJob">
 		<context name="jobContext" class="com.framework.process.DefaultJobContext">
 			<node name="PayCheckNode" class="com.pay.biz.handler.node.PayCheckNode">
@@ -18,6 +19,16 @@
 		</context>
 	</job>
 
+	<!-- 支付完成job -->
+	<job id="finishJob" class="com.framework.process.SimpleJob">
+		<context name="jobContext" class="com.framework.process.DefaultJobContext">
+			<node name="PayCheckNode" class="com.pay.biz.handler.node.PayCheckNode">
+				<node name="PayFinishNode" class="com.pay.biz.handler.node.PayFinishNode">
+					<node name="PayNotifyNode" class="com.pay.biz.handler.node.PayNotifyNode" />
+				</node>
+			</node>
+		</context>
+	</job>
 
 	<!-- 微信退款请求Job -->
 	<job id="refundJob" class="com.framework.process.SimpleJob">

@@ -79,6 +79,7 @@ public class JobBeanDefinitionParser extends AbstractBeanDefinitionParser {
         String className = StringUtils.trimWhitespace(nodeElement.getAttribute("class"));
         String scope = StringUtils.trimWhitespace(nodeElement.getAttribute("scope"));
 
+        String beanName = className + "_" + name;
         BeanDefinitionBuilder nodeBeanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(className);
         if(!StringUtils.hasLength(scope)) {
             scope = BeanDefinition.SCOPE_SINGLETON;
@@ -88,17 +89,17 @@ public class JobBeanDefinitionParser extends AbstractBeanDefinitionParser {
         nodeBeanDefinitionBuilder.addPropertyValue("name", name);
         AbstractBeanDefinition beanDefinition = nodeBeanDefinitionBuilder.getBeanDefinition();
 
-//        if(validate(name, beanDefinition, parserContext)) {
-//            throw new RuntimeException("配置错误，同一beanName不能对应多个beanClass,");
-//        }
+        if(validate(beanName, beanDefinition, parserContext)) {
+            throw new RuntimeException("配置错误，同一beanName不能对应多个beanClass,");
+        }
 
         BeanDefinitionReaderUtils.registerBeanDefinition(new BeanDefinitionHolder(
-                beanDefinition, name), parserContext.getRegistry());
+                beanDefinition, beanName), parserContext.getRegistry());
         NodeNameHolder nodeHolder;
         if(null == rootHolder) {
-            rootHolder = nodeHolder = new NodeNameHolder(name, true);
+            rootHolder = nodeHolder = new NodeNameHolder(name, beanName, true);
         } else {
-            nodeHolder = new NodeNameHolder(name);
+            nodeHolder = new NodeNameHolder(name, beanName);
             rootHolder.addChild(nodeHolder);
         }
         //decision节点,根据配置信息选择不同的node节点执行

@@ -37,7 +37,9 @@ public class PayNotifyNode extends AbstractNode<BaseDomain, PayResult> {
             if ("SUCCESS".equals(result.getReturnCode())) {
                 domain.setNotifyCode(1);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            logger.error(">>通知业务系统失败，orderNo:{}，原因：{}", domain.getOrderNo(), e);
+        }
         payPaymentMapper.update(domain);
     }
 

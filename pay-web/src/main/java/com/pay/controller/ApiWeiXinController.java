@@ -1,5 +1,6 @@
 package com.pay.controller;
 
+import com.framework.process.result.Result;
 import com.pay.Constants;
 import com.pay.domain.PayConfig;
 import com.pay.domain.PayPayment;
@@ -9,6 +10,7 @@ import com.pay.enums.TradeStatus;
 import com.pay.exception.PayException;
 import com.pay.biz.handler.result.PayResult;
 import com.pay.service.PayConfigService;
+import com.pay.service.PayPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class ApiWeiXinController extends BaseController {
 
     @Autowired
     private PayConfigService payConfigService;
+
+    @Autowired
+    private PayPaymentService payPaymentService;
 
     /**
      * 微信授权入口
@@ -127,6 +132,7 @@ public class ApiWeiXinController extends BaseController {
             result.put("return_msg", "验证签名失败");
             return MapUtil.map2Xml(result);
         }
+        //参数gouz
         PayPayment payment = new PayPayment();
         payment.setTradeNo(requestData.get("out_trade_no"));
         if(StringUtils.hasLength(requestData.get("trade_type"))) {
@@ -146,7 +152,7 @@ public class ApiWeiXinController extends BaseController {
             payment.setTradeDesc(requestData.get("err_code_des"));
         }
 
-
+        payPaymentService.finishPay(payment);
         result.put("return_code", "SUCCESS");
         return MapUtil.map2Xml(result);
     }

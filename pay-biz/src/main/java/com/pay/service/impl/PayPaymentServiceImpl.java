@@ -22,6 +22,9 @@ public class PayPaymentServiceImpl implements PayPaymentService {
     @Resource(name = "payJob")
     private SimpleJob payJob;
 
+    @Resource(name = "finishJob")
+    private SimpleJob finishJob;
+
     @Autowired
     private PayPaymentMapper payPaymentMapper;
 
@@ -33,8 +36,9 @@ public class PayPaymentServiceImpl implements PayPaymentService {
     }
 
     @Override
-    public PayResult dealPay(PayPayment payPayment) {
-        return null;
+    public PayResult finishPay(PayPayment payPayment) {
+        PayResult result = (PayResult) finishJob.execute(payPayment);
+        return result;
     }
 
     @Override

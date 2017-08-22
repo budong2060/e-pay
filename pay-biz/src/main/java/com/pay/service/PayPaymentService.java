@@ -9,17 +9,17 @@ import com.pay.biz.handler.result.PayResult;
  */
 public interface PayPaymentService {
     /**
-     *
+     * 预支付
      * @param payPayment
      */
     PayResult prepay(PayPayment payPayment);
 
     /**
-     *
+     * 第三方通知回调处理
      * @param payPayment
      * @return
      */
-    PayResult dealPay(PayPayment payPayment);
+    PayResult finishPay(PayPayment payPayment);
 
     /**
      * 根据条件查询

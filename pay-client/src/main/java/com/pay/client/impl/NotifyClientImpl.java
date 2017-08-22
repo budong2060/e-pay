@@ -1,6 +1,5 @@
 package com.pay.client.impl;
 
-import com.pay.Constants;
 import com.pay.client.NotifyClient;
 import com.pay.client.result.NotifyResult;
 import com.pay.client.vo.NotifyVo;
@@ -9,13 +8,13 @@ import com.pay.exception.PayException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import util.PropertiesUtil;
-import util.XMLUtil;
 
 /**
  * Created by admin on 2017/7/18.
  */
+@Component
 public class NotifyClientImpl implements NotifyClient {
 
     private final Logger logger = LoggerFactory.getLogger(NotifyClientImpl.class);
