@@ -1,6 +1,5 @@
 package com.pay.controller;
 
-import com.framework.process.result.Result;
 import com.pay.Constants;
 import com.pay.domain.PayConfig;
 import com.pay.domain.PayPayment;
@@ -102,7 +101,9 @@ public class ApiWeiXinController extends BaseController {
      */
     @RequestMapping(value = "/wx/pay/notify/{mchId}/{payWay}")
     public Object payNotify(HttpServletRequest request, @PathVariable String mchId, @PathVariable Integer payWay) {
-        logger.info(">>收到微信支付异步通知请求,商户号:{}, 渠道:{}", mchId, payWay);
+        if (logger.isInfoEnabled()) {
+            logger.info(">>收到微信支付异步通知请求,商户号:{}, 渠道:{}", mchId, payWay);
+        }
         PayConfig payConfig = payConfigService.getOnly(mchId, payWay, 1, 1);
         if (null == payConfig || null == payConfig.getConfig()) {
             throw new PayException(PayResultEnum.DATA_HAS_NOT_EXSIT, "第三方支付账户配置不存在");

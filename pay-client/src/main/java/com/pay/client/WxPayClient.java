@@ -8,6 +8,14 @@ import java.util.Map;
  *
  */
 public interface WxPayClient {
+    /**
+     * 获取微信openId
+     * @param appid
+     * @param secret
+     * @param code
+     * @return
+     */
+    Map<String, String> accessToken(String appid, String secret, String code);
 
     /**
      * 调用微信统一下单接口
@@ -21,16 +29,11 @@ public interface WxPayClient {
      * @param requestXml
      * @return
      */
-    Map<String, String> doRefund(String requestXml);
+    Map<String, String> doRefund(String certPath, String password, String requestXml);
 
     /**
-     * 获取微信openId
-     * @param appid
-     * @param secret
-     * @param code
+     * 下载账单
      * @return
      */
-    Map<String, String>  accessToken(String appid, String secret, String code);
-
-    void other();
+    String downloadBill(String requestXml);
 }

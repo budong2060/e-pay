@@ -53,10 +53,14 @@ public enum PayResultEnum {
 
 	INVALID_TRADE_NO("INVALID_TRADE_NO", "无效商户订单号", "208"),
 
-	//====================退款 start 2开头==========================
+	//====================退款 start 3开头==========================
 	REFUND_AMOUNT_OVERDUE("REFUND_AMOUNT_OVERDUE", "退款金额超限", "301"),
 
-	REFUND_FAIL("REFUND_FAIL", "微信退款失败", "303"),
+	REFUND_FAIL("REFUND_FAIL", "退款失败", "303"),
+
+	//====================对账 start 4开头==========================
+	FAIL_DOWNLOAD_BILL("FAIL_DOWNLOAD_BILL", "下载对账单失败", "501"),
+
 
 	;
 

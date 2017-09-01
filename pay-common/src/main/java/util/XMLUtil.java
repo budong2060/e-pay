@@ -32,7 +32,6 @@ public class XMLUtil {
 		Map m = new HashMap();
 		
 		InputStream in = new ByteArrayInputStream(strxml.getBytes("UTF-8"));
-		System.out.println(in.toString());
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(in);
 		Element root = doc.getRootElement();
@@ -40,8 +39,8 @@ public class XMLUtil {
 		Iterator it = list.iterator();
 		while(it.hasNext()) {
 			Element e = (Element) it.next();
-			String k = e.getName();
 			String v = "";
+			String k = e.getName();
 			List children = e.getChildren();
 			if(children.isEmpty()) {
 				v = e.getTextNormalize();

@@ -22,6 +22,21 @@ public interface PayPaymentService {
     PayResult finishPay(PayPayment payPayment);
 
     /**
+     * 更新
+     * @param payPayment
+     * @return
+     */
+    PayResult update(PayPayment payPayment);
+
+    /**
+     * 根据orderNo查询
+     * @param orderNo
+     * @param mchId
+     * @return
+     */
+    PayResult<PayPayment> queryByOrderNo(String orderNo, String mchId);
+
+    /**
      * 根据条件查询
      * @param payPayment
      * @return

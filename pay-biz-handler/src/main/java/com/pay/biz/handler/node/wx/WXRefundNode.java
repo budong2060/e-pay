@@ -43,14 +43,17 @@ public class WXRefundNode extends AbstractNode<BaseDomain, PayResult> {
         }
         Map<String, String> config = payConfig.getConfig();
         String requestXml = genRequestXml(config, refund);
-        Map<String, String> refundResult = wxPayClient.doRefund(requestXml);
+        Map<String, String> refundResult = wxPayClient.doRefund(config.get(Constants.CERT_PATH), config.get(Constants.CERT_PWD), requestXml);
         if(!"SUCCESS".equals(refundResult.get("result_code"))) {
-            throw new PayException(PayResultEnum.PAY_PREPAY_FAIL, refundResult.get("err_code_des"));
+//            throw new PayException(PayResultEnum.REFUND_FAIL, refundResult.get("err_code_des"));
+            refund.setRefundStatus(RefundStatus.REFUND_FAIL.code());
+            refund.setRefundDesc(refund.getRefundDesc() + "【" + refundResult.get("err_code_des") + "】");
+        } else {
+            String refundId = refundResult.get("refund_id");
+            refund.setRefundStatus(RefundStatus.REFUND_SUCCESS.code());
+            refund.setThirdRefundNo(refundId);
+            refund.setRefundFinishTime(new Date());
         }
-        String refundId = refundResult.get("refund_id");
-        refund.setRefundStatus(RefundStatus.REFUND_SUCCESS.code());
-        refund.setThirdRefundNo(refundId);
-        refund.setRefundFinishTime(new Date());
     }
 
     /**

@@ -81,6 +81,10 @@ public class PayPayment extends BaseDomain {
     @NotEmpty(message = "支付回调地址不能为空")
     private String notifyUrl;
     /**
+     * 支付同步返回地址
+     */
+    private String returnUrl;
+    /**
      * 0-未通知，1-已通知
      */
     private Integer notifyCode;
@@ -207,6 +211,14 @@ public class PayPayment extends BaseDomain {
 
     public void setNotifyUrl(String notifyUrl) {
         this.notifyUrl = notifyUrl;
+    }
+
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
     }
 
     public String getCode() {

@@ -17,7 +17,7 @@ public class TransactionManagerConfig {
     @Autowired(required = false)
     private DataSource dataSource;
 
-    @Bean
+    @Bean("transactionManager")
     public DataSourceTransactionManager getTxManager() {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         transactionManager.setRollbackOnCommitFailure(true);

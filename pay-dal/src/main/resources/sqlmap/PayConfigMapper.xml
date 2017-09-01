@@ -8,6 +8,7 @@
 		<result column="pay_way" property="payWay" />
 		<result column="pay_scene" property="payScene" />
 		<result column="status" property="status" />
+		<result column="is_bill" property="isBill" />
 		<result column="config" property="config" typeHandler="com.pay.common.JsonTypeHandler" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
@@ -15,27 +16,27 @@
 
 	<insert id="save" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into pay_config (
-			mch_name, mch_id , pay_way, pay_scene, status, config, create_time,  update_time
+			mch_name, mch_id , pay_way, pay_scene, status, is_bill, config, create_time,  update_time
 		)
 		values (
-			#{mchName}, #{mchId}, #{payWay}, #{payScene}, #{status}, #{config, javaType=java.util.Map, jdbcType=VARCHAR}, #{createTime}, #{updateTime}
+			#{mchName}, #{mchId}, #{payWay}, #{payScene}, #{status}, #{isBill}, #{config, javaType=java.util.Map, jdbcType=VARCHAR}, #{createTime}, #{updateTime}
 		)
 	</insert>
 
 	<select id="get" resultMap="payConfig">
-		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, is_bill, config, create_time,  update_time
 		FROM pay_config
 		WHERE id = #{id}
 	</select>
 
 	<select id="findOnly" resultMap="payConfig">
-		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, is_bill, config, create_time,  update_time
 		FROM pay_config
 		WHERE mch_id = #{mchId} AND  pay_way = #{payWay} AND status = #{status} AND pay_scene = #{payScene}
 	</select>
 
 	<select id="findAll" resultMap="payConfig">
-		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, config, create_time,  update_time
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status, is_bill, config, create_time,  update_time
 		FROM pay_config ORDER BY id
 	</select>
 
@@ -46,8 +47,8 @@
 		</if>
 	</select>
 
-	<select id="getByPage" resultMap="payConfig">
-		SELECT id, account_name, account_no, pay_way, pay_scene, status, config, create_time,  update_time
+	<select id="findByPage" resultMap="payConfig">
+		SELECT id, mch_id, mch_name,, pay_way, pay_scene, status, is_bill, config, create_time,  update_time
 		FROM pay_config WHERE WHERE 1 = 1
 		<if test="mchId != null">
 			AND mch_id = #{mchId}
@@ -55,6 +56,14 @@
 		limit #{page}, #{size}
 	</select>
 
+	<select id="findByBill" resultMap="payConfig">
+		SELECT id, mch_id, mch_name, pay_way, pay_scene, status
+		FROM pay_config WHERE status = 1 AND is_bill = 1
+		<if test="mchId != null">
+			AND mch_id = #{mchId}
+		</if>
+		GROUP BY mch_id, config ORDER BY id
+	</select>
 
 	<delete id="delete" flushCache="true">
 		update pay_config SET status = 0, update_time = SYSDATE() WHERE id = #{id}
@@ -77,6 +86,9 @@
 			</if>
 			<if test="status != null">
 				status=#{status},
+			</if>
+			<if test="isBill != null">
+				is_bill=#{isBill},
 			</if>
 			<if test="config != null">
 				config=#{config, javaType=java.util.Map, jdbcType=VARCHAR}

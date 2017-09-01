@@ -28,7 +28,8 @@ public class PayFinishNode extends AbstractNode<BaseDomain, PayResult> {
         if (null == payPayment) {
             throw new PayException(PayResultEnum.DATA_HAS_NOT_EXSIT);
         }
-        if (payPayment.getTradeStatus() == TradeStatus.TRADE_SUCCESS.code()) {
+        if (payPayment.getTradeStatus() == TradeStatus.TRADE_SUCCESS.code() ||
+                payPayment.getTradeStatus() == TradeStatus.TRADE_FAIL.code()) {
             context.setDone(true);
             return;
         }

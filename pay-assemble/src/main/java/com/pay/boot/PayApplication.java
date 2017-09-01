@@ -2,6 +2,7 @@ package com.pay.boot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Halbert on 2017/7/1.
  */
 @ComponentScan(value = "com.pay.*")
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = BatchAutoConfiguration.class)
 @ImportResource("classpath:spring-base.xml")
 public class PayApplication extends SpringBootServletInitializer {
 

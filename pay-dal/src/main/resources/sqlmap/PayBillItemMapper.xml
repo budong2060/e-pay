@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pay.mybatis.PayBillItemMapper">
+
+	<sql id="baseSql" >
+		id id, bill_date billDate, mch_id mchId, third_mch_id thirdMchId, third_sub_mch_id thirdSubMchId, pay_way payWay, bill_type billType, order_no orderNo,
+		order_type orderType, trade_time tradeTime, trade_no tradeNo, third_trade_no thirdTradeNo, trade_status tradeStatus, trade_amount tradeAmount,
+		coupon_amount couponAmount, trade_desc tradeDesc, refund_no refundNo, third_refund_no thirdRefundNo, refund_time refundTime,
+		refund_finish_time refundFinishTime, refund_amount refundAmount, refund_coupon_amount refundCouponAmount, refund_status refundStatus,
+		create_time createTime, update_time updateTime
+	</sql>
+
+	<delete id="deleteByDate" flushCache="true">
+		delete from pay_bill WHERE mch_id = #{mchId} AND date_format(bill_date, '%Y-%m-%d') = #{billDate} AND pay_way = #{payWay}
+	</delete>
+
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into pay_bill(bill_date, mch_id, third_mch_id, third_sub_mch_id, pay_way, bill_type, order_no, order_type, trade_time,
+			trade_no, third_trade_no, trade_status, trade_amount, coupon_amount, trade_desc, refund_no, third_refund_no, refund_time,
+			refund_finish_time, refund_amount, refund_coupon_amount, refund_status,	create_time , update_time )
+		values
+		<foreach collection="items" item="item" separator=",">
+			(#{item.billDate}, #{item.mchId}, #{item.thirdMchId}, #{item.thirdSubMchId}, #{item.payWay}, #{item.billType}, #{item.orderNo}, #{item.orderType}, #{item.tradeTime},
+			#{item.tradeNo}, #{item.thirdTradeNo}, #{item.tradeStatus}, #{item.tradeAmount}, #{item.couponAmount}, #{item.tradeDesc}, #{item.refundNo}, #{item.thirdRefundNo}, #{item.refundTime},
+			#{item.refundFinishTime}, #{item.refundAmount}, #{item.refundCouponAmount}, #{item.refundStatus}, #{item.createTime}, #{item.updateTime})
+		</foreach>
+	</insert>
+
+	<select id="countByMchId" resultType="int">
+		select count(*) from pay_bill where mch_id = #{mchId}
+		<if test="payWay != null">
+			AND pay_way = #{payWay}
+		</if>
+		<if test="orderType != null">
+			AND order_type = #{orderType}
+		</if>
+		<if test="billDate != null">
+			AND date_format(trading_time, '%Y-%m-%d') = #{billDate}
+		</if>
+	</select>
+
+	<select id="pageQuery" resultType="com.pay.domain.PayBillItem">
+		select
+			<include refid="baseSql" />
+		from pay_bill where unit_id = #{unitId}
+		<if test="payWay != null">
+			AND pay_way = #{payWay}
+		</if>
+		<if test="orderType != null">
+			AND order_type = #{orderType}
+		</if>
+		<if test="billDate != null">
+			AND date_format(trading_time, '%Y-%m-%d') = #{billDate}
+		</if>
+		ORDER BY create_time
+		limit #{pageNo}, #{pageSize}
+	</select>
+
+</mapper>

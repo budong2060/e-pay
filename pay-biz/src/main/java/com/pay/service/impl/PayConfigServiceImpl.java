@@ -72,7 +72,7 @@ public class PayConfigServiceImpl implements PayConfigService {
     public Pager<PayConfig> getByPage(String mchId, int page, int size) {
         long totalCount = payConfigMapper.count(mchId);
         if(totalCount > 0) {
-            return new Pager<>(page, size, totalCount, payConfigMapper.getByPage(mchId, (page - 1) * size, size));
+            return new Pager<>(page, size, totalCount, payConfigMapper.findByPage(mchId, (page - 1) * size, size));
         }
         return new Pager<>(page, size);
     }

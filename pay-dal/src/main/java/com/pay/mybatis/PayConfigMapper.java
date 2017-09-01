@@ -28,6 +28,12 @@ public interface PayConfigMapper extends BaseMapper<PayConfig> {
      * @param size
      * @return
      */
-    List<PayConfig> getByPage(@Param("mchId") String mchId, @Param("page")int page, @Param("size")int size);
+    List<PayConfig> findByPage(@Param("mchId") String mchId, @Param("page")int page, @Param("size")int size);
 
+    /**
+     * 查询需要对账的账户
+     * @param mchId
+     * @return
+     */
+    List<PayConfig> findByBill(@Param("mchId") String mchId);
 }

@@ -25,7 +25,7 @@ public class PayCheckNode extends AbstractNode<BaseDomain, PayResult> {
     public void process(DefaultJobContext<BaseDomain, PayResult> context, BaseDomain baseDomain) {
         PayPayment domain = (PayPayment) baseDomain;
 
-        domain.setTradeStatus(TradeStatus.TRADE_PROCEEDING.code());
+        domain.setTradeStatus(TradeStatus.TRADE_APPLY.code());
         //校验当前订单是否已经支付过
         PayPayment payPayment = payPaymentMapper.findByOrderNo(domain.getOrderNo(), domain.getMchId());
         if (null != payPayment) {

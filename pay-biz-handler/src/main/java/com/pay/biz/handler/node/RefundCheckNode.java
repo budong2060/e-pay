@@ -56,7 +56,10 @@ public class RefundCheckNode extends AbstractNode<BaseDomain, PayResult> {
     private BigDecimal sumRefundAmount(List<PayRefund> refunds) {
         BigDecimal totalAmount = new BigDecimal(0.00);
         for (PayRefund refund : refunds) {
-            totalAmount = totalAmount.add(refund.getRefundAmount());
+            if (refund.getRefundStatus() != RefundStatus.REFUND_FAIL.code() &&
+                    refund.getRefundStatus() != RefundStatus.REFUND_CLOSED.code()) {
+                totalAmount = totalAmount.add(refund.getRefundAmount());
+            }
         }
         return totalAmount;
     }

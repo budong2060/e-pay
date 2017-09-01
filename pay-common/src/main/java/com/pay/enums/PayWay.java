@@ -2,6 +2,7 @@ package com.pay.enums;
 
 /**
  * Created by admin on 2017/7/18.
+ * 支付渠道
  */
 public enum PayWay {
 
@@ -10,8 +11,14 @@ public enum PayWay {
     WX_APP_PAY(16, "APP", "微信APP"),
 
     WX_NATIVE_PAY(18, "NATIVE", "微信扫码"),
-    /** 支付失败 */
-    ALI_PAY(4, "PC", "支付失败"),
+
+    ALI_PAY(10, "ALI_PAY", "支付宝"),
+
+    ALI_APP_PAY(11, "ALI_APP_PAY", "支付宝APP"),
+
+    ALI_WAP_PAY(12, "ALI_WAP_PAY", "支付宝WAP"),
+
+    CMBC_PAY(16, "CMBC_PAY", "招行支付"),
     ;
 
     /**

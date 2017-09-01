@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +41,6 @@ public class BaseController {
 
 //    @RequestMapping("/test")
     public Object test() {
-        wxPayClient.other();
         Map<Object, Object> map = new HashMap<Object, Object>(){{
             put("test", "test");
             put("date", new Date());
@@ -82,6 +82,27 @@ public class BaseController {
     public Object pay2(HttpServletRequest request, HttpServletResponse response) {
 
         return "test111";
+    }
+
+    /**
+     *
+     * @param response
+     * @param obj
+     */
+    public void writer(HttpServletResponse response, String obj) {
+        PrintWriter pw = null;
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            pw = response.getWriter();
+            pw.print(obj);
+            pw.flush();
+        } catch (IOException e) {
+            logger.error(">>PrintWriter写入数据失败，原因", e);
+        } finally {
+            if (null != pw) {
+                pw.close();
+            }
+        }
     }
 
      /**

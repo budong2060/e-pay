@@ -9,7 +9,7 @@ package com.pay.enums;
 public enum TradeStatus {
 	/** 支付申请 */
 	TRADE_APPLY(1, "支付申请"),
-	/** 支付中 */
+	/** 支付中-待第三方支付回调 */
 	TRADE_PROCEEDING(2, "支付中"),
 	/** 支付成功 */
 	TRADE_SUCCESS(3, "支付成功"),

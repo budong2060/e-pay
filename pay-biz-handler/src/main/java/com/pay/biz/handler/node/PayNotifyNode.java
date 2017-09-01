@@ -31,6 +31,7 @@ public class PayNotifyNode extends AbstractNode<BaseDomain, PayResult> {
     public void process(DefaultJobContext<BaseDomain, PayResult> context, BaseDomain baseDomain) {
         PayPayment domain = (PayPayment) baseDomain;
         try {
+            //TODO MQ异步处理
             NotifyVo notifyVo = new NotifyVo();
             BeanUtil.copyProperties(domain, notifyVo);
             NotifyResult result = notifyClient.notify(domain.getNotifyUrl(), notifyVo);

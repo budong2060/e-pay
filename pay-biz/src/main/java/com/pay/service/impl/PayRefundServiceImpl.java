@@ -4,6 +4,7 @@ import com.framework.process.SimpleJob;
 import com.pay.domain.PayRefund;
 import com.pay.biz.handler.result.PayResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -18,6 +19,7 @@ public class PayRefundServiceImpl implements PayRefundService {
     @Resource(name = "refundJob")
     private SimpleJob refundJob;
 
+    @Transactional
     @Override
     public PayResult applyRefund(PayRefund refund) {
         PayResult result = (PayResult) refundJob.execute(refund);

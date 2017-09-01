@@ -84,20 +84,20 @@ public class WXPayNode extends AbstractNode<BaseDomain, PayResult> {
         sortParams.put("nonce_str", WXUtil.getNonceStr());
         sortParams.put("out_trade_no", payPayment.getTradeNo());
         sortParams.put("spbill_create_ip", RemoteAdsUtil.getRemoteAddress());
+        sortParams.put("product_id", payPayment.getOrderNo());
 //        sortParams.put("spbill_create_ip", payPayment.getRequestId());
 
         PayWay payWay = PayWay.getByCode(payPayment.getPayWay());
         sortParams.put("trade_type", payWay.getType());
 
         //设置回调地址，若有配置则取配置文件，否则取默认地址
-        String notifyUrl = config.get(Constants.NOTIFY_URL);
-        if(StringUtils.hasLength(notifyUrl)) {
-            sortParams.put("notify_url", notifyUrl);
-        } else {
-            //TODO
-            String host = PropertiesUtil.getProperty(Constants.PAY_HOST);
-            sortParams.put("notify_url", host);
+        String uri = "/wx/pay/notify/" + payPayment.getMchId() + "/" + payPayment.getPayWay();
+        String host = config.get(Constants.PAY_HOST);
+        if(StringUtils.isEmpty(host)) {
+            host = PropertiesUtil.getProperty(Constants.PAY_HOST);
         }
+        sortParams.put("notify_url", host + uri);
+
         //计算金额，元转分
         BigDecimal tradeAmount = payPayment.getTradeAmount();
         int totalFee = tradeAmount.multiply(new BigDecimal(100)).intValue();

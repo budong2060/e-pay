@@ -22,23 +22,12 @@ public class PayPaymentController extends BaseController {
     }
 
     /**
-     * 根据订单号和类型查询
+     * 根据订单号
      * @return
      */
-    @RequestMapping(value = "/pay/{orderNo}/{orderType}", method = RequestMethod.GET)
-    public Object queryByOrderNo(@PathVariable("orderNo") String orderNo, @PathVariable Integer orderType) {
-
-        return null;
-    }
-
-    /**
-     * 根据商户流水号查询
-     * @return
-     */
-    @RequestMapping(value = "/pay/{tradeNo}", method = RequestMethod.GET)
-    public Object queryTradeNo(@PathVariable("tradeNo") String tradeNo) {
-
-        return null;
+    @RequestMapping(value = "/pay/{mchId}/{orderNo}", method = RequestMethod.GET)
+    public Object queryByOrderNo(@PathVariable("orderNo") String orderNo, @PathVariable("mchId") String mchId) {
+        return payPaymentService.queryByOrderNo(orderNo, mchId);
     }
 
 }

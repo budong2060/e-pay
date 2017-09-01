@@ -41,6 +41,10 @@ public class PayConfig extends BaseDomain {
      */
     @NotNull(message = "第三方账户配置信息不能为空")
     private Map<String, String> config;
+    /**
+     * 是否下载对账单0-不需下载   1-需要下载
+     */
+    private Integer isBill = 0;
 
     public String getMchName() {
         return mchName;
@@ -88,6 +92,14 @@ public class PayConfig extends BaseDomain {
 
     public void setConfig(Map<String, String> config) {
         this.config = config;
+    }
+
+    public Integer getIsBill() {
+        return isBill;
+    }
+
+    public void setIsBill(Integer isBill) {
+        this.isBill = isBill;
     }
 
     @Override
