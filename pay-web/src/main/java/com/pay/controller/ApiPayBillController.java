@@ -16,9 +16,9 @@ import java.util.Date;
  * 微信支付相关
  */
 @RestController
-public class PayBillController extends BaseController {
+public class ApiPayBillController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PayBillController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApiPayBillController.class);
 
     @Autowired
     private PayBillService payBillService;

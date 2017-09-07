@@ -18,6 +18,8 @@ public enum RefundStatus {
 
 	REFUND_CLOSED(5, "退款订单已关闭"),
 
+	REFUND_EXCEPTION(6, "退款异常"),
+
 	;
 
 	/**

@@ -7,12 +7,12 @@
 		id id, user_id userId, account_id accountId, user_name userName
 	</sql>
 
-	<insert id="save" parameterType="payAccount" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.pay.domain.PayAccount" flushCache="true" useGeneratedKeys="true" keyProperty="id">
 		 insert into pay_account(user_id,account_id,user_name)
 		 values(#{userId},#{accountId},#{userName})
 	</insert>
 
-	<select id="update" flushCache="true">
+	<select id="update" parameterType="com.pay.domain.PayAccount" flushCache="true">
 		update pay_account
 		<set>
 			user_name=#{userName}

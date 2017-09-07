@@ -60,6 +60,7 @@
 	<!-- 分支step选择 -->
 	<bean:bean id="decider" class="com.pay.service.batch.bill.PayBillJobExecutionDecider" />
 
+	<!-- only two scopes: singleton (the default) and step -->
 	<bean:bean id="reader" class="com.pay.service.batch.bill.PayBillItemReader" scope="step">
 		<bean:property name="mchId" value="#{jobParameters['mchId']}" />
 		<bean:property name="loadDate" value="#{jobParameters['loadDate']}" />

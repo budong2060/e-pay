@@ -1,13 +1,13 @@
-#parse("/views/common/header.vm")
+#parse("views/common/header.vm")
 <link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
-		#parse("/views/common/navbar.vm")
+		#parse("views/common/navbar.vm")
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		#parse("/views/common/menubar.vm")
+		#parse("views/common/menubar.vm")
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
 		<div class="main">

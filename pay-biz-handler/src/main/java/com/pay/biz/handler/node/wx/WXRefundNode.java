@@ -1,17 +1,12 @@
 package com.pay.biz.handler.node.wx;
 
-import com.framework.process.AbstractNode;
-import com.framework.process.DefaultJobContext;
 import com.pay.Constants;
+import com.pay.biz.handler.node.BaseRefundNode;
 import com.pay.client.WxPayClient;
-import com.pay.domain.BaseDomain;
-import com.pay.domain.PayConfig;
 import com.pay.domain.PayRefund;
-import com.pay.enums.PayResultEnum;
 import com.pay.enums.RefundStatus;
-import com.pay.exception.PayException;
-import com.pay.biz.handler.result.PayResult;
-import com.pay.mybatis.PayConfigMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import util.WXUtil;
 import util.XMLUtil;
@@ -26,25 +21,18 @@ import java.util.TreeMap;
  * Created by admin on 2017/7/19.
  * 微信退款节点
  */
-public class WXRefundNode extends AbstractNode<BaseDomain, PayResult> {
+public class WXRefundNode extends BaseRefundNode {
 
-    @Autowired
-    private PayConfigMapper payConfigMapper;
+    private final Logger logger = LoggerFactory.getLogger(WXRefundNode.class);
 
     @Autowired
     private WxPayClient wxPayClient;
 
     @Override
-    public void process(DefaultJobContext<BaseDomain, PayResult> context, BaseDomain domain) {
-        PayRefund refund = (PayRefund) domain;
-        PayConfig payConfig = payConfigMapper.findOnly(refund.getMchId(), refund.getPayWay(), 1, 1);
-        if(null == payConfig) {
-            throw new PayException(PayResultEnum.DATA_HAS_NOT_EXSIT, "第三方账户不存在");
-        }
-        Map<String, String> config = payConfig.getConfig();
+    protected Object doProcess(Map<String, String> config, PayRefund refund) {
         String requestXml = genRequestXml(config, refund);
         Map<String, String> refundResult = wxPayClient.doRefund(config.get(Constants.CERT_PATH), config.get(Constants.CERT_PWD), requestXml);
-        if(!"SUCCESS".equals(refundResult.get("result_code"))) {
+        if (!"SUCCESS".equals(refundResult.get("result_code"))) {
 //            throw new PayException(PayResultEnum.REFUND_FAIL, refundResult.get("err_code_des"));
             refund.setRefundStatus(RefundStatus.REFUND_FAIL.code());
             refund.setRefundDesc(refund.getRefundDesc() + "【" + refundResult.get("err_code_des") + "】");
@@ -54,6 +42,7 @@ public class WXRefundNode extends AbstractNode<BaseDomain, PayResult> {
             refund.setThirdRefundNo(refundId);
             refund.setRefundFinishTime(new Date());
         }
+        return refund;
     }
 
     /**

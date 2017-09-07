@@ -5,6 +5,7 @@ import com.framework.process.DefaultJobContext;
 import com.pay.biz.handler.result.PayResult;
 import com.pay.domain.BaseDomain;
 import com.pay.domain.PayBillItem;
+import com.pay.enums.PayWay;
 import com.pay.mybatis.PayPaymentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import util.AssertUtil;
@@ -22,5 +23,7 @@ public class DownloadCheckNode extends AbstractNode<BaseDomain, PayResult> {
         PayBillItem domain = (PayBillItem) baseDomain;
         AssertUtil.hasText(domain.getMchId(), "商户号不能为空");
         AssertUtil.notNull(domain.getBillDate(), "账单日不能为空");
+        PayWay payWay = PayWay.getByCode(domain.getPayWay());
+        domain.setPayChannel(payWay.getChannel());
     }
 }

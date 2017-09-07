@@ -15,6 +15,10 @@ public class BaseDomain implements Domain {
     @JsonIgnore
     private String requestId;
     /**
+     * 请求渠道
+     */
+    private String payChannel;
+    /**
      * 创建时间
      */
     private Date createTime = new Date();
@@ -29,6 +33,14 @@ public class BaseDomain implements Domain {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPayChannel() {
+        return payChannel;
+    }
+
+    public void setPayChannel(String payChannel) {
+        this.payChannel = payChannel;
     }
 
     public String getRequestId() {

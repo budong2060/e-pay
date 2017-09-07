@@ -27,8 +27,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -41,9 +42,9 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
 
     @Override
     protected List<PayBillItem> doDownLoad(Map<String, String> config, PayBillItem payBillItem) {
-        String appid = PropertiesUtil.getProperty(Constants.ALI_GATEWAY);
-        payBillItem.setThirdMchId(appid);
-        AlipayClient alipayClient = new DefaultAlipayClient(appid, config.get(Constants.ALI_APP_ID), config.get(Constants.ALI_PRIVATEKEY),
+        String url = PropertiesUtil.getProperty(Constants.ALI_GATEWAY);
+        String appid = config.get(Constants.ALI_APP_ID);
+        AlipayClient alipayClient = new DefaultAlipayClient(url, appid, config.get(Constants.ALI_PRIVATEKEY),
                 "json", Constants.CHARSET, config.get(Constants.ALI_PUBLICKEY), config.get(Constants.RSA) == null ? "RSA" : config.get(Constants.RSA));
         AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();//创建API对应的request类
         AlipayDataDataserviceBillDownloadurlQueryModel model  = new AlipayDataDataserviceBillDownloadurlQueryModel();
@@ -58,6 +59,7 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
             logger.info(">>获取支付宝账单地址结果:是否成功:{}, 描述:{}, 账单地址:{}", response.isSuccess(), response.getMsg(), response.getBillDownloadUrl());
             if (response.isSuccess()) {
                 logger.info(">>开始解析支付宝账单.....");
+                payBillItem.setThirdMchId(appid);
                 String billText = getBillText(response.getBillDownloadUrl());
                 List<PayBillItem> list = parseText(billText, payBillItem);
                 logger.info(">>开始解析支付宝账单结束.....");
@@ -89,7 +91,7 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
         String [] texts = billText.split("\n");
         if (texts.length > 5) {
             for (int i = 5; i < texts.length; i++) {
-                String text = texts[i];
+                String text = regExp(texts[i]);
                 if ("#".equals(text.substring(0, 1))) {
                     continue;
                 }
@@ -100,6 +102,26 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
         return billItems;
     }
 
+    /**
+     *
+     * @param str
+     * @return
+     */
+    private String regExp(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        Pattern pattern = Pattern.compile("\t|\r");
+        Matcher matcher = pattern.matcher(str);
+        return matcher.replaceAll("");
+    }
+
+    /**
+     *
+     * @param ss
+     * @param payBill
+     * @return
+     */
     private PayBillItem createBillItem(String[] ss, PayBillItem payBill) {
         PayBillItem payBillItem = new PayBillItem();
         payBillItem.setMchId(payBill.getMchId());
@@ -118,12 +140,13 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
             payBillItem.setBillType(2);
 //            payBillItem.setThirdRefundNo();  //支付宝未生成第三方退款流水号
             payBillItem.setRefundNo(ss[21]);  //退款批次号
-            payBillItem.setRefundTime(DateUtils.parse(ss[5]));
-            payBillItem.setRefundAmount(new BigDecimal(ss[11]));
+            payBillItem.setRefundTime(DateUtils.parse(ss[4]));
+            payBillItem.setRefundFinishTime(DateUtils.parse(ss[5]));
+            payBillItem.setRefundAmount(new BigDecimal(ss[11]).abs());
             payBillItem.setRefundCouponAmount(new BigDecimal(ss[15]));
             payBillItem.setRefundStatus(RefundStatus.REFUND_SUCCESS.code());
         }
-        payBillItem.setTradeDesc(ss[24]);
+        payBillItem.setTradeDesc(ss[3]);
         return payBillItem;
     }
 
@@ -147,8 +170,6 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
             httpUrlConnection.setDoOutput(true);
             httpUrlConnection.setUseCaches(false);
             httpUrlConnection.setRequestMethod("GET");
-            httpUrlConnection.setRequestProperty("Charsert", Constants.CHARSET);
-            httpUrlConnection.setRequestProperty("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
             httpUrlConnection.connect();
             fis = httpUrlConnection.getInputStream();
             //解析下载的数据流(*.zip)
@@ -172,9 +193,9 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
                 }
             }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            logger.error(">>解析支付宝账单失败，原因", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(">>解析支付宝账单失败，原因", e);
         } finally {
             try {
                 if (br != null) br.close();

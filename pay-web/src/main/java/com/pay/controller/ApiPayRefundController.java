@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 退款相关controller
  */
 @RestController
-public class PayRefundController extends BaseController {
+public class ApiPayRefundController extends BaseController {
 
     @Autowired
     private PayRefundService payRefundService;

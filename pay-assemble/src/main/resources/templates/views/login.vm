@@ -1,4 +1,4 @@
-#parse("/views/common/header.vm")
+#parse("views/common/header.vm")
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">

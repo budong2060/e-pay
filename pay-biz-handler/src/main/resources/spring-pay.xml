@@ -39,12 +39,13 @@
 	<!-- 退款请求Job -->
 	<job id="refundJob" class="com.framework.process.SimpleJob">
 		<context name="jobContext" class="com.framework.process.DefaultJobContext">
-			<node name="PayCheckNode" class="com.pay.biz.handler.node.PayCheckNode">
-				<!--<decision name="payWay" expression="#{'refundWay_' + domain.payWay}" />-->
-				<node name="refundWay_16" class="com.pay.biz.handler.node.RefundCheckNode">
-					<node name="WXRefundNode" class="com.pay.biz.handler.node.wx.WXRefundNode">
-						<node name="RefundUpdateNode" class="com.pay.biz.handler.node.wx.RefundUpdateNode" />
-					</node>
+			<node name="RefundCheckNode" class="com.pay.biz.handler.node.RefundCheckNode">
+				<decision name="payWay" expression="#{domain.payChannel}" />
+				<node name="WX" class="com.pay.biz.handler.node.wx.WXRefundNode">
+					<node name="RefundUpdateNode" class="com.pay.biz.handler.node.RefundFinishNode" />
+				</node>
+				<node name="ALI" class="com.pay.biz.handler.node.ali.AliRefundNode">
+					<node name="RefundUpdateNode" class="com.pay.biz.handler.node.RefundFinishNode" />
 				</node>
 			</node>
 		</context>
@@ -55,13 +56,13 @@
 	<job id="downloadJob" class="com.framework.process.SimpleJob">
 		<context name="jobContext" class="com.framework.process.DefaultJobContext">
 			<node name="PayCheckNode" class="com.pay.biz.handler.node.DownloadCheckNode">
-				<decision name="payWay" expression="#{'payWay_' + domain.payWay}" />
+				<decision name="payWay" expression="#{domain.payChannel}" />
 				<!-- 微信渠道 -->
-				<node name="payWay_14" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />
-				<node name="payWay_16" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />
-				<node name="payWay_18" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />
+				<node name="WX" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />
+				<!--<node name="payWay_16" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />
+				<node name="payWay_18" class="com.pay.biz.handler.node.wx.WxDownloadBillNode" />-->
 				<!-- alipay -->
-				<node name="payWay_10" class="com.pay.biz.handler.node.ali.AliPayDownLoadBillNode" />
+				<node name="ALI" class="com.pay.biz.handler.node.ali.AliPayDownLoadBillNode" />
 			</node>
 		</context>
 	</job>

@@ -18,4 +18,176 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!-- 将打包文件放入parent目录下的target子目录中 -->
+        <!--<outputDirectory>../</outputDirectory>-->
+
+        <plugins>
+            <!--项目打包插件，输出仅包含项目主代码的jar包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <!--打包后不包括pom的描述文件 -->
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <!--Maven在生成jar时，并不知道这个jar是lib还是app -->
+                        <!--所以使用以下这个插件告之MAVEN这个jar为app，指定main类 -->
+                        <manifest>
+                            <mainClass>com.pay.boot.PayApplication</mainClass>
+                        </manifest>
+                    </archive>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jar-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${deploy.dir}/lib</outputDirectory>
+                            <!--考虑不要把配置文件信息打包到jar文件里 -->
+                            <!--这样就可以只修改配置文件,不用修改到jar,部署时相对灵活一些 -->
+                            <excludes>
+                                <exclude>*.xml</exclude>
+                                <exclude>*.properties</exclude>
+                                <exclude>*.bat</exclude>
+                                <exclude>*.conf</exclude>
+                                <exclude>*.sh</exclude>
+                                <exclude>*/*.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 资源文件插件 -->
+            <!-- 将指定的资源文件拷贝到指定的文件目录中 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${deploy.dir}/conf</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <!--待复制的资源文件相对位置 -->
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.xml</include>
+                                        <include>*.properties</include>
+                                        <include>*/*.xml</include>
+                                        <include>*/*.properties</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-sh</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${deploy.dir}/bin</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <!--待复制的资源文件相对位置 -->
+                                    <directory>bin</directory>
+                                    <includes>
+                                        <include>*.sh</include>
+                                        <include>*.bat</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--依赖jar包插件 -->
+            <!-- 将相关的依赖jar拷贝到指定的文件目录中 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${deploy.dir}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <excludeArtifactIds>
+                                pay-test
+                            </excludeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--项目打包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>make-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <finalName>epay-${project.version}</finalName>
+                    <descriptors>
+                        <descriptor>assembly/assembly.xml</descriptor>
+                    </descriptors>
+                    <!-- scm 要求 release 模式打出的包放到顶级目录下的target子目录中 -->
+                    <outputDirectory>${project.parent.build.directory}</outputDirectory>
+
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>false</attach>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.pay.boot.PayApplication</mainClass>
+                    <layout>JAR</layout>
+                    &lt;!&ndash;<finalName>epay</finalName>&ndash;&gt;
+                    <outputDirectory>../</outputDirectory>
+                    <excludeArtifactIds>
+                        pay-test
+                    </excludeArtifactIds>
+                </configuration>
+            </plugin>-->
+        </plugins>
+    </build>
+
 </project>

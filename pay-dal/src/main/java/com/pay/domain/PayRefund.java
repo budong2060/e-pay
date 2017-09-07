@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -33,6 +34,7 @@ public class PayRefund extends BaseDomain {
     /**
      * 支付渠道
      */
+    @NotNull(message = "商户流水号不能为空")
     private Integer payWay;
     /**
      * 商户支付流水号

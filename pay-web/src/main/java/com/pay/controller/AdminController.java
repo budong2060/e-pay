@@ -13,13 +13,13 @@ public class AdminController extends BaseController {
 
     @RequestMapping("/admin")
     public String admin() {
-        return "/views/login";
+        return "views/login";
     }
 
     @RequestMapping("/admin/login")
     public String login() {
 
-        return "/views/index";
+        return "views/index";
     }
 
 

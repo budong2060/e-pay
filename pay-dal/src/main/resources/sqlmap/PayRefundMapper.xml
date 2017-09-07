@@ -10,18 +10,18 @@
 		mch_id mchId, notify_code notifyCode, create_time createTime, update_time updateTime
 	</sql>
 
-	<insert id="save" parameterType="payPayment" flushCache="true" useGeneratedKeys="true" keyProperty="id">
-		 insert into pay_payment(user_id, refund_time, pay_way, trade_no, refund_amount,
+	<insert id="save" parameterType="com.pay.domain.PayRefund" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+		 insert into pay_refund(user_id, refund_time, pay_way, trade_no, refund_amount,
 		 	refund_finish_time, refund_status, third_refund_no, refund_desc, notify_url, mch_id, notify_code, create_time, update_time)
 		 values(#{userId},#{refundTime}, #{payWay}, #{tradeNo}, #{refundAmount},
 		  	#{refundFinishTime},#{refundStatus},#{thirdRefundNo},#{refundDesc},#{notifyUrl},#{mchId}, #{notifyCode}, NOW(), NOW())
 	</insert>
 
-	<select id="findByTradeNo" resultType="payRefund">
+	<select id="findByTradeNo" resultType="com.pay.domain.PayRefund">
 		select <include refid="commCols"/> from pay_refund WHERE trade_no = #{tradeNo}
 	</select>
 
-	<select id="findByRefundNo" resultType="payRefund">
+	<select id="findByRefundNo" resultType="com.pay.domain.PayRefund">
 		select <include refid="commCols"/> from pay_refund WHERE refund_no = #{refundNo}
 	</select>
 
@@ -30,7 +30,7 @@
 		select <include refid="commCols"/> from pay_refund WHERE trade_no = #{tradeNo}
 	</select>-->
 
-	<update id="update" parameterType="payRefund" flushCache="true">
+	<update id="update" parameterType="com.pay.domain.PayRefund" flushCache="true">
 		update pay_refund
 		<set>
 			<if test="userId != null">

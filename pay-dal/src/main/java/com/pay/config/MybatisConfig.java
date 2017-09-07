@@ -1,12 +1,15 @@
 package com.pay.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 //import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -55,16 +58,16 @@ public class MybatisConfig {
      * 通过MybatisAutoConfiguration读取相关配置
      * @return
      */
-    @Primary
-    @Bean
-    public MybatisProperties getProperties() {
-        MybatisProperties properties = new MybatisProperties();
-//        properties.setExecutorType(ExecutorType.SIMPLE);
-        properties.setTypeAliasesPackage("com.pay.domain");
-        properties.setConfigLocation("classpath:mybatis/mybatis-config.xml");
-        properties.setMapperLocations(new String[] { "classpath*:sqlmap/*Mapper.xml" });
-        return properties;
-    }
+//    @Primary
+//    @Bean
+//    public MybatisProperties getProperties() {
+//        MybatisProperties properties = new MybatisProperties();
+////        properties.setExecutorType(ExecutorType.SIMPLE);
+//        properties.setTypeAliasesPackage("com.pay.domain");
+//        properties.setConfigLocation("classpath:mybatis/mybatis-config.xml");
+//        properties.setMapperLocations(new String[] { "classpath*:sqlmap/*Mapper.xml" });
+//        return properties;
+//    }
 
     /**
      * 事务管理
@@ -79,6 +82,21 @@ public class MybatisConfig {
 //        txProperties.setRollbackOnCommitFailure(true); //设置事务提交失败回滚
 //        return txProperties;
 //    }
+
+    @Primary
+    @Bean
+    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
+
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(getDataSource());
+
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.pay.domain");
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:sqlmap/*Mapper.xml"));
+        sqlSessionFactoryBean.setConfigLocation(resolver.getResource("classpath:mybatis/mybatis-config.xml"));
+        return sqlSessionFactoryBean.getObject();
+    }
 
 
     public String getUserName() {

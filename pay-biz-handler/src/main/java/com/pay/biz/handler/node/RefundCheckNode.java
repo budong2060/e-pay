@@ -7,6 +7,7 @@ import com.pay.domain.BaseDomain;
 import com.pay.domain.PayPayment;
 import com.pay.domain.PayRefund;
 import com.pay.enums.PayResultEnum;
+import com.pay.enums.PayWay;
 import com.pay.enums.RefundStatus;
 import com.pay.enums.TradeStatus;
 import com.pay.exception.PayException;
@@ -45,7 +46,9 @@ public class RefundCheckNode extends AbstractNode<BaseDomain, PayResult> {
         refund.setPayWay(payPayment.getPayWay());
         refund.setThirdTradeNo(payPayment.getThirdTradeNo());
         refund.setRefundStatus(RefundStatus.REFUND_APPLY.code());
-        payRefundMapper.save(refund);
+        PayWay payWay = PayWay.getByCode(payPayment.getPayWay());
+        refund.setPayChannel(payWay.getChannel());
+//        payRefundMapper.save(refund);
     }
 
     /**

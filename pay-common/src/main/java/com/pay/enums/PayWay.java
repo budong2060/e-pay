@@ -6,19 +6,19 @@ package com.pay.enums;
  */
 public enum PayWay {
 
-    WX_PAY(14, "JSAPI", "微信公众号"),
+    WX_PAY(14, "JSAPI", "WX", "微信公众号"),
 
-    WX_APP_PAY(16, "APP", "微信APP"),
+    WX_APP_PAY(16, "APP", "WX", "微信APP"),
 
-    WX_NATIVE_PAY(18, "NATIVE", "微信扫码"),
+    WX_NATIVE_PAY(18, "NATIVE", "WX", "微信扫码"),
 
-    ALI_PAY(10, "ALI_PAY", "支付宝"),
+    ALI_PAY(10, "ALI_PAY", "ALI", "支付宝"),
 
-    ALI_APP_PAY(11, "ALI_APP_PAY", "支付宝APP"),
+    ALI_APP_PAY(11, "ALI_APP_PAY", "ALI", "支付宝APP"),
 
-    ALI_WAP_PAY(12, "ALI_WAP_PAY", "支付宝WAP"),
+    ALI_WAP_PAY(12, "ALI_WAP_PAY", "ALI", "支付宝WAP"),
 
-    CMBC_PAY(16, "CMBC_PAY", "招行支付"),
+    CMBC_PAY(16, "CMBC_PAY", "CMBC", "招行支付"),
     ;
 
     /**
@@ -30,16 +30,20 @@ public enum PayWay {
      * 支付类型
      */
     private final String type;
+    /**
+     * 渠道
+     */
+    private final String channel;
 
     /**
      * 枚举描述
      */
     private final String message;
 
-
-    PayWay(int code, String type, String message) {
+    PayWay(int code, String type, String channel, String message) {
         this.code = code;
         this.type = type;
+        this.channel = channel;
         this.message = message;
     }
 
@@ -81,6 +85,10 @@ public enum PayWay {
             }
         }
         return null;
+    }
+
+    public String getChannel() {
+        return channel;
     }
 
 }

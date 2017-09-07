@@ -61,7 +61,7 @@ public class PayBillServiceImpl implements PayBillService {
 
     }
 
-    @Transactional(timeout = 60, rollbackFor = Exception.class)
+    @Transactional(timeout = 100, rollbackFor = Exception.class)
     private void doDownLoad(PayConfig config, Date startDate) throws Exception {
         JobExecution execution = launcher.run(payBillJob, new JobParametersBuilder()
                 .addString("mchId", config.getMchId())

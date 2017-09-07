@@ -1,5 +1,7 @@
 package com.pay.intercepter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +15,7 @@ import java.util.UUID;
  */
 public class AllInterceptor implements HandlerInterceptor {
 
+	private static final Logger logger = LoggerFactory.getLogger(AllInterceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -27,6 +30,7 @@ public class AllInterceptor implements HandlerInterceptor {
 						   HttpServletResponse response, Object handler,
 						   ModelAndView modelAndView) throws Exception {
 		System.out.println("===================================================");
+		logger.info(">>=======================================================");
 	}
 
 	@Override
