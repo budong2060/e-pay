@@ -85,10 +85,10 @@
                                     <!--待复制的资源文件相对位置 -->
                                     <directory>src/main/resources</directory>
                                     <includes>
-                                        <include>*.xml</include>
                                         <include>*.properties</include>
-                                        <include>*/*.xml</include>
                                         <include>*/*.properties</include>
+                                        <!--<include>*.xml</include>
+                                        <include>*/*.xml</include>-->
                                     </includes>
                                     <filtering>true</filtering>
                                 </resource>

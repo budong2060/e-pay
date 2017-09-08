@@ -91,9 +91,9 @@ echo "init server name[$SERVICE_NAME],server port[$SERVICE_PORT]"
 # JAVA启动选项初始化区
 # =====================================
 # java 常规启动
-
 #JAVA_OPTS=" -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog.path=${LOGS_DIR} -Dservice.port=${SERVICE_PORT}  -Djmx.port=${JMX_PORT} "
 JAVA_OPTS=" -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dlog.path=${LOGS_DIR} -Djmx.port=${JMX_PORT} -Dspring.active.profile=${RUN_ENV} "
+
 
 # 默认启动内存配置
 JAVA_MEM_OPTS=""
@@ -128,7 +128,13 @@ fi
 
 # 整合JAVA启动参数
 JAVA_EXEC="$JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS $SERVICE_MAIN"
-echo -e "JAVA START PARAMS : $JAVA_EXEC ...\c"
+echo -e "应用参数配置目录: $CONF_DIR ...\c"
+echo -e "==============================================================================================================\c"
+echo -e "系统启动参数: $JAVA_OPTS ...\c"
+echo -e "系统VM启动参数: $JAVA_MEM_OPTS...\c"
+echo -e "系统DEBUG启动参数: $JAVA_DEBUG_OPTS...\c"
+echo -e "系统JMX监听配置参数: $JAVA_JMX_OPTS...\c"
+
 
 # 正式启动区
 # =====================================
