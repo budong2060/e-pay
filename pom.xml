@@ -68,7 +68,7 @@
         <mysql.version>5.1.5</mysql.version>
         <alipay.version>20170324180803</alipay.version>
 
-        <deploy.dir>../target/epay</deploy.dir>
+        <deploy.dir>target/epay</deploy.dir>
     </properties>
 
     <dependencyManagement>
