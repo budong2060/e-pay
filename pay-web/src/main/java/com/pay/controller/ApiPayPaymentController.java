@@ -1,5 +1,7 @@
 package com.pay.controller;
 
+import com.pay.biz.handler.result.PayResult;
+import com.pay.common.Pager;
 import com.pay.domain.PayPayment;
 import com.pay.service.PayPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,25 @@ public class ApiPayPaymentController extends BaseController {
     @RequestMapping(value = "/pay/{mchId}/{orderNo}", method = RequestMethod.GET)
     public Object queryByOrderNo(@PathVariable("orderNo") String orderNo, @PathVariable("mchId") String mchId) {
         return payPaymentService.queryByOrderNo(orderNo, mchId);
+    }
+
+    /**
+     * 用户端查询支付记录
+     * @param payment
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/pay/{pageNum}/{pageSize}")
+    public Object query(PayPayment payment, @PathVariable("pageNum") int pageNum, @PathVariable("pageSize")int pageSize) {
+        if (pageNum <= 0) {
+            pageNum = 1;
+        }
+        if (pageSize <= 0) {
+            pageSize = Pager.DEFAULT_PAGE_NUM;
+        }
+        Pager<PayPayment> pager = payPaymentService.query(payment, pageNum, pageSize);
+        return new PayResult<>(pager);
     }
 
 }

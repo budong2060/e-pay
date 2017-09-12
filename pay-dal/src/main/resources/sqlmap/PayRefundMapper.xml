@@ -68,4 +68,85 @@
 		<where>id=#{id}</where>
 	</update>
 
+	<select id="count" resultType="long">
+		select count(*) from pay_refund
+		<where>
+			1= 1
+			<if test="mchId != null and mchId != ''">
+				and mch_id=#{mchId}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id=#{userId}
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				and order_no=#{orderNo}
+			</if>
+			<if test="orderType != null">
+				and order_type=#{orderType}
+			</if>
+			<if test="payWay != null">
+				and pay_way=#{payWay}
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				and trade_no=#{tradeNo}
+			</if>
+			<if test="thirdTradeNo != null and thirdTradeNo != ''">
+				and third_trade_no=#{thirdTradeNo}
+			</if>
+			<if test="refundStatus != null">
+				and refund_status=#{refundStatus}
+			</if>
+			<if test="refundNo != null">
+				and refund_no=#{refundNo}
+			</if>
+			<if test="refundTime != null">
+				and refund_time=#{refundTime}
+			</if>
+			<if test="thirdRefundNo != null">
+				and third_refund_no=#{thirdRefundNo}
+			</if>
+		</where>
+	</select>
+
+	<select id="query" resultType="com.pay.domain.PayPayment">
+		select <include refid="commCols"/> from pay_refund
+		<where>
+			1= 1
+			<if test="mchId != null and mchId != ''">
+				and mch_id=#{mchId}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id=#{userId}
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				and order_no=#{orderNo}
+			</if>
+			<if test="orderType != null">
+				and order_type=#{orderType}
+			</if>
+			<if test="payWay != null">
+				and pay_way=#{payWay}
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				and trade_no=#{tradeNo}
+			</if>
+			<if test="thirdTradeNo != null and thirdTradeNo != ''">
+				and third_trade_no=#{thirdTradeNo}
+			</if>
+			<if test="refundStatus != null">
+				and refund_status=#{refundStatus}
+			</if>
+			<if test="refundNo != null">
+				and refund_no=#{refundNo}
+			</if>
+			<if test="refundTime != null">
+				and refund_time=#{refundTime}
+			</if>
+			<if test="thirdRefundNo != null">
+				and third_refund_no=#{thirdRefundNo}
+			</if>
+		</where>
+		LIMIT #{pageNum}, #{pageSize}
+	</select>
+
 </mapper>

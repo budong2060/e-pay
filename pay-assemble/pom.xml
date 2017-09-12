@@ -174,19 +174,19 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.pay.boot.PayApplication</mainClass>
                     <layout>JAR</layout>
-                    &lt;!&ndash;<finalName>epay</finalName>&ndash;&gt;
-                    <outputDirectory>../</outputDirectory>
+                    <finalName>epay</finalName>
+                    <outputDirectory>../target</outputDirectory>
                     <excludeArtifactIds>
                         pay-test
                     </excludeArtifactIds>
                 </configuration>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 

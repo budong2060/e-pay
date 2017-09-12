@@ -1,0 +1,26 @@
+package com.pay.service;
+
+import com.pay.common.Pager;
+import com.pay.domain.PayRefund;
+import com.pay.biz.handler.result.PayResult;
+
+/**
+ * Created by admin on 2017/7/5.
+ */
+public interface PayRefundService {
+    /**
+     *
+     * @param refund
+     */
+    PayResult applyRefund(PayRefund refund);
+
+    /**
+     * 查询退款记录
+     * @param refund
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Pager<PayRefund> query(PayRefund refund, int pageNum, int pageSize);
+
+}

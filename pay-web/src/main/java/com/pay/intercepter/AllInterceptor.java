@@ -21,7 +21,9 @@ public class AllInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
 							 HttpServletResponse response, Object handler) throws Exception {
 
-		MDC.put("log-key", UUID.randomUUID().toString());
+		String traceId = UUID.randomUUID().toString().replace("-", "");
+		MDC.put("log-key", traceId);
+		logger.info(">>收到请求，请求地址:{}", request.getRequestURI());
 		return true;
 	}
 
@@ -29,8 +31,6 @@ public class AllInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request,
 						   HttpServletResponse response, Object handler,
 						   ModelAndView modelAndView) throws Exception {
-		System.out.println("===================================================");
-		logger.info(">>=======================================================");
 	}
 
 	@Override
