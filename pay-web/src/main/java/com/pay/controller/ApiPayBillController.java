@@ -24,7 +24,6 @@ public class ApiPayBillController extends BaseController {
     private PayBillService payBillService;
 
     @RequestMapping(value = "/pay/bill/task/download")
-    @ResponseBody
     public Object download(final Date startDate, final Date endDate, final String mchId) {
         PayResult result = new PayResult();
         if(null != startDate && null != endDate) {
@@ -34,11 +33,8 @@ public class ApiPayBillController extends BaseController {
                 return result;
             }
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                payBillService.downLoad(startDate, endDate, mchId);
-            }
+        new Thread(() -> {
+            payBillService.downLoad(startDate, endDate, mchId);
         }).start();
         result.setResultEnum(PayResultEnum.EXECUTE_SUCCESS);
         return result;

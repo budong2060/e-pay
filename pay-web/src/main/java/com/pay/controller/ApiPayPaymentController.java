@@ -3,7 +3,10 @@ package com.pay.controller;
 import com.pay.biz.handler.result.PayResult;
 import com.pay.common.Pager;
 import com.pay.domain.PayPayment;
+import com.pay.enums.PayResultEnum;
+import com.pay.exception.PayException;
 import com.pay.service.PayPaymentService;
+import com.pay.vo.PaymentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +22,11 @@ public class ApiPayPaymentController extends BaseController {
     private PayPaymentService payPaymentService;
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public Object pay(@Valid @RequestBody PayPayment payPayment) {
-        return payPaymentService.prepay(payPayment);
+    public Object pay(@Valid @RequestBody PaymentVo paymentVo) {
+        if (!paymentVo.verify("key")) {
+            throw new PayException(PayResultEnum.SIGN_VERIFY_FIAL);
+        }
+        return payPaymentService.prepay(paymentVo.getPayPayment());
     }
 
     /**

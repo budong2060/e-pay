@@ -11,11 +11,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by admin on 2017/7/18.
  */
-public class BeanUtil extends BeanUtils {
+public abstract class BeanUtil extends BeanUtils {
 
     /**
      *
@@ -98,5 +100,34 @@ public class BeanUtil extends BeanUtils {
         }
     }
 
+    /**
+     * 将bean转换为map
+     * @param t
+     * @param <T>
+     * @throws BeansException
+     */
+    public static <T> Map<String, String> bean2Map(T t, String... ignoreProperties) throws BeansException {
+//        BeanInfo beanInfo = Introspector.getBeanInfo(t.getClass());
+        PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(t.getClass());
+        Map<String, String> map = new TreeMap<>();
+        List<String> ignoreList = (ignoreProperties != null ? Arrays.asList(ignoreProperties) : null);
+        for (PropertyDescriptor souce : propertyDescriptors) {
+            if (ignoreList == null || !ignoreList.contains(souce.getName())) {
+                Method readMethod = souce.getReadMethod();
+                try {
+                    if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
+                        readMethod.setAccessible(true);
+                    }
+                    Object value = readMethod.invoke(t);
+                    //TODO
+                    map.put(souce.getName(), String.valueOf(value));
+                } catch (Throwable ex) {
+                    throw new FatalBeanException(
+                            "Could not copy property '" + souce.getName() + "' from source to target", ex);
+                }
+            }
+        }
+        return map;
+    }
 
 }

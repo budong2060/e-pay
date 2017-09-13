@@ -35,8 +35,10 @@ public enum PayResultEnum {
 	DATA_HAS_NOT_EXSIT("DATA_HAS_NOT_EXSIT", "数据不存在", "003"),
 	/** 该数据已经存在 */
 	DATA_HAS_EXSIT("DATA_HAS_EXSIT", "该数据已经存在", "004"),
+	/** 签名验证失败 */
+	SIGN_VERIFY_FIAL("SIGN_VERIFY_FIAL", "签名验证失败", "405"),
 	/** 处理中 */
-	PROCESSING("PROCESSING", "处理中", "201"),
+	PROCESSING("PROCESSING", "处理中", "100"),
 	//====================共同end==========================
 
 	//====================支付start 2开头==========================
