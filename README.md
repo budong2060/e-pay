@@ -1,16 +1,15 @@
 # e-pay
 ### 系统目录
-      e-pay
-        |--e-pay
-        |   |--pay-assemble(启动main模块)
-        |   |--pay-web(优化配置)
-        |   |--pay-biz(业务处理模块)
-        |   |--pay-biz-handler(业务详细处理模块)
-        |   |--pay-support(对业务支撑模块—主要处理渠道选择)
-        |   |--pay-dal(mybatis相关模块)
-        |   |--pay-client(远程调用客户端模块)
-        |   |--pay-common(通用模块)
-        |   |--pay-test(测试用例模块)
+        e-pay
+        |--pay-assemble(启动main模块)
+        |--pay-web(优化配置)
+        |--pay-biz(业务处理模块)
+        |--pay-biz-handler(业务详细处理模块)
+        |--pay-support(对业务支撑模块—主要处理渠道选择)
+        |--pay-dal(mybatis相关模块)
+        |--pay-client(远程调用客户端模块)
+        |--pay-common(通用模块)
+        |--pay-test(测试用例模块)
 
 ### API接口
     1.支付接口: /pay

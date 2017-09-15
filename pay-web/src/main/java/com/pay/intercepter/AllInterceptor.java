@@ -24,6 +24,10 @@ public class AllInterceptor implements HandlerInterceptor {
 		String traceId = UUID.randomUUID().toString().replace("-", "");
 		MDC.put("log-key", traceId);
 		logger.info(">>收到请求，请求地址:{}", request.getRequestURI());
+
+		String authorization = request.getHeader("Authorization");
+		logger.info(">>收到请求，请求authorization:{}", authorization);
+
 		return true;
 	}
 

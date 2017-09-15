@@ -1,5 +1,6 @@
 package com.pay.domain;
 
+import com.pay.enums.AuditType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -81,6 +82,10 @@ public class PayRefund extends BaseDomain {
      * 回调业务系统地址
      */
     private String notifyUrl;
+    /**
+     * 0 = 自动退款 | 1 = 人工审核退款
+     */
+    private Integer auditType = AuditType.AUTO.getCode();
     /**
      * 0-未通知，1-已通知
      */
@@ -220,6 +225,14 @@ public class PayRefund extends BaseDomain {
 
     public void setNotifyCode(Integer notifyCode) {
         this.notifyCode = notifyCode;
+    }
+
+    public Integer getAuditType() {
+        return auditType;
+    }
+
+    public void setAuditType(Integer auditType) {
+        this.auditType = auditType;
     }
 
     @Override

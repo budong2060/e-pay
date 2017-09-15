@@ -5,52 +5,54 @@
     <properties resource="mybatis-generator.properties"/>
 
     <!-- 指定数据连接驱动jar地址 -->
-    <classPathEntry location="D:\apache-maven\repository\mysql\mysql-connector-java\5.1.5\mysql-connector-java-5.1.5.jar" />
+    <classPathEntry location="${classPath}" />
 
     <!-- 一个数据库一个context -->
     <context id="infoGuardian">
         <!-- 注释 -->
         <commentGenerator >
+            <property name="useInformationSchema" value="true"></property>
             <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
             <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
         </commentGenerator>
 
         <!-- jdbc连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/e-pay?characterEncoding=UTF8" userId="root"
-                        password="root" />
+        <jdbcConnection driverClass="${jdbcDriver}"
+                        connectionURL="${jdbcUrl}" userId="${jdbcUser}"
+                        password="${jdbcPassword}" />
 
         <!-- 类型转换 -->
         <javaTypeResolver>
             <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
-            <property name="forceBigDecimals" value="false"/>
+            <property name="forceBigDecimals" value="true"/>
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.pay.domain"
-                            targetProject="D:\workplace\e-pay\pay-dal\src\main\java" >
+        <javaModelGenerator targetPackage="${model.targetPackage}"
+                            targetProject="${model.targetProject}" >
             <!-- 是否在当前路径下新加一层schema,eg：flase路径com.nykj.pay.user.model， true:com.nykj.pay.user.model.[schemaName] -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
             <property name="trimStrings" value="true"/>
+            <property name="rootClass" value="com.pay.domain.BaseDomain"/>
         </javaModelGenerator>
 
         <!-- 生成mapxml文件 -->
-        <sqlMapGenerator targetPackage="com.pay.record.entity"
-                         targetProject="${project}" >
+        <sqlMapGenerator targetPackage="${map.targetPackage}"
+                         targetProject="${map.targetProject}" >
             <!-- 是否在当前路径下新加一层schema,eg：flase路径com.nykj.pay.user.model， true:com.nykj.pay.user.model.[schemaName] -->
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.pay.record.entity"
-                             targetProject="${project}" type="XMLMAPPER" >
+        <javaClientGenerator targetPackage="${client.targetPackage}"
+                             targetProject="${client.targetProject}" type="XMLMAPPER" >
             <!-- 是否在当前路径下新加一层schema,eg：flase路径com.nykj.pay.user.model， true:com.nykj.pay.user.model.[schemaName] -->
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
         <!-- 配置表信息 -->
-        <table schema="${jdbc_user}" tableName="pay_account"
+        <table schema="${jdbcUser}" tableName="pay_account"
                domainObjectName="PayAccount" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">

@@ -19,13 +19,13 @@ public class PayAccountServiceImpl implements PayAccountService {
     @Transactional
     @Override
     public PayAccount save(PayAccount account) {
-        payAccountMapper.save(account);
+        payAccountMapper.insert(account);
 
         account.setUserName("232323fas");
-        payAccountMapper.save(account);
+        payAccountMapper.insert(account);
 
         account.setUserName("fsdfasdfasdfas");
-        payAccountMapper.update(account);
+        payAccountMapper.updateByPrimaryKey(account);
 //        throw new RuntimeException("============");
         return account;
     }
