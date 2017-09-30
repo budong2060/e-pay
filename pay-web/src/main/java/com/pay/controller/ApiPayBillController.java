@@ -1,6 +1,7 @@
 package com.pay.controller;
 
 import com.pay.biz.handler.result.PayResult;
+import com.pay.domain.PayConfig;
 import com.pay.enums.PayResultEnum;
 import com.pay.service.PayBillService;
 import org.slf4j.Logger;
@@ -38,6 +39,15 @@ public class ApiPayBillController extends BaseController {
         }).start();
         result.setResultEnum(PayResultEnum.EXECUTE_SUCCESS);
         return result;
+    }
+
+    @RequestMapping(value = "/pay/bill/task/balance")
+    public Object execBalance(String mchId, Date billDate) {
+        if (null == billDate) {
+            billDate = new Date();
+        }
+        payBillService.execBalance(mchId, billDate);
+        return new PayResult<>("后台对账功能启动成功...");
     }
 
 }

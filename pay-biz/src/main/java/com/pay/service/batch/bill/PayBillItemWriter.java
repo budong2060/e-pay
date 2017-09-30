@@ -18,7 +18,7 @@ public class PayBillItemWriter implements ItemWriter<PayBillItem> {
     @Override
     public void write(List items) throws Exception {
         if(null != items && items.size() > 0) {
-            payBillItemMapper.batchSave(items);
+            payBillItemMapper.batchInsert(items);
         }
     }
 }

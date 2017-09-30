@@ -8,13 +8,13 @@ package com.pay.enums;
  */
 public enum TradeType {
 
-	PAY(0),      //支付
+	PAY(1),      //支付
 
-	REFUND(1),   //退款
+	REFUND(2),   //退款
 
-	RECHARGE(2), //充值
+	RECHARGE(3), //充值
 
-	CASH(3),     //提现
+	CASH(4),     //提现
 
 	;
 

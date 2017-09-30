@@ -1,5 +1,8 @@
 package com.pay.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by admin on 2017/7/18.
  * 支付渠道
@@ -89,6 +92,19 @@ public enum PayWay {
 
     public String getChannel() {
         return channel;
+    }
+
+    /**
+     * 获取全部枚举值
+     *
+     * @return List<String>
+     */
+    public static List<String> getAllChannel() {
+        List<String> list = new ArrayList<String>();
+        for (PayWay _enum : values()) {
+            list.add(_enum.getChannel());
+        }
+        return list;
     }
 
 }

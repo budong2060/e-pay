@@ -91,11 +91,11 @@ public class PayBillItem extends BaseDomain {
     /**
      * 支付渠道
      */
-    private int payWay;
+    private Integer payWay;
     /**
      * 账单类型 1:支付，2：退款
      */
-    private int billType;
+    private Integer billType;
 
     public Date getBillDate() {
         return billDate;
@@ -257,20 +257,49 @@ public class PayBillItem extends BaseDomain {
         this.refundStatus = refundStatus;
     }
 
-    public int getPayWay() {
+    public Integer getPayWay() {
         return payWay;
     }
 
-    public void setPayWay(int payWay) {
+    public void setPayWay(Integer payWay) {
         this.payWay = payWay;
     }
 
-    public int getBillType() {
+    public Integer getBillType() {
         return billType;
     }
 
-    public void setBillType(int billType) {
+    public void setBillType(Integer billType) {
         this.billType = billType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PayBillItem that = (PayBillItem) o;
+
+        if (!mchId.equals(that.mchId)) return false;
+        if (!tradeNo.equals(that.tradeNo)) return false;
+        if (!thirdTradeNo.equals(that.thirdTradeNo)) return false;
+        if (!tradeAmount.equals(that.tradeAmount)) return false;
+        if (!refundNo.equals(that.refundNo)) return false;
+        if (!thirdRefundNo.equals(that.thirdRefundNo)) return false;
+        return refundAmount.equals(that.refundAmount);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mchId.hashCode();
+        result = 31 * result + tradeNo.hashCode();
+        result = 31 * result + thirdTradeNo.hashCode();
+        result = 31 * result + tradeAmount.hashCode();
+        result = 31 * result + refundNo.hashCode();
+        result = 31 * result + thirdRefundNo.hashCode();
+        result = 31 * result + refundAmount.hashCode();
+        return result;
     }
 
     @Override

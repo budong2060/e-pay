@@ -1,8 +1,12 @@
 package com.pay.mybatis;
 
+import com.pay.domain.PayBillItem;
 import com.pay.domain.PayPayment;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by admin on 2017/7/4.
@@ -23,6 +27,16 @@ public interface PayPaymentMapper extends BaseMapper<PayPayment> {
      * @return
      */
     PayPayment findByTradeNo(@Param("tradeNo") String tradeNo);
+
+    /**
+     *
+     * @param mchId
+     * @param payChannel
+     * @param tradeDate
+     * @return
+     */
+    List<PayBillItem> findByTradeDate(@Param("mchId") String mchId, @Param("payChannel") String payChannel, @Param("tradeDate") Date tradeDate,
+                                      @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
 
 }
 

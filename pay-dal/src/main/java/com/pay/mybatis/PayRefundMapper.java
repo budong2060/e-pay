@@ -1,9 +1,11 @@
 package com.pay.mybatis;
 
+import com.pay.domain.PayBillItem;
 import com.pay.domain.PayRefund;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,18 @@ public interface PayRefundMapper extends BaseMapper<PayRefund> {
      * @return
      */
     PayRefund findByRefundNo(@Param("refundNo") String refundNo);
+
+    /**
+     *
+     * @param mchId
+     * @param payChannel
+     * @param tradeDate
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    List<PayBillItem> findByTradeDate(@Param("mchId") String mchId, @Param("payChannel") String payChannel, @Param("tradeDate") Date tradeDate,
+                                      @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
 
 }
 

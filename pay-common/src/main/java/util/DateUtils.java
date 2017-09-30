@@ -228,4 +228,14 @@ public class DateUtils extends DateFormatUtils {
         return null;
     }
 
+    public static Date parse(Date date, String pattern) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+            return format.parse(format.format(date));
+        } catch (ParseException e) {
+            logger.error(">>时间[{}]解析失败, 原因:{}", date, e);
+        }
+        return null;
+    }
+
 }

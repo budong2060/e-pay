@@ -9,6 +9,7 @@ import com.pay.Constants;
 import com.pay.biz.handler.node.DownloadBillNode;
 import com.pay.domain.PayBillItem;
 import com.pay.enums.PayResultEnum;
+import com.pay.enums.PayWay;
 import com.pay.enums.RefundStatus;
 import com.pay.enums.TradeStatus;
 import com.pay.exception.PayException;
@@ -126,6 +127,8 @@ public class AliPayDownLoadBillNode extends DownloadBillNode {
         PayBillItem payBillItem = new PayBillItem();
         payBillItem.setMchId(payBill.getMchId());
         payBillItem.setBillDate(payBill.getBillDate());
+        PayWay payWay = PayWay.getByCode(payBill.getPayWay());
+        payBillItem.setPayChannel(payWay.getChannel());
         payBillItem.setPayWay(payBill.getPayWay());
         payBillItem.setThirdMchId(payBill.getThirdMchId());
 

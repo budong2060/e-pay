@@ -85,26 +85,28 @@ public class WxDownloadBillNode extends DownloadBillNode {
      */
     private PayBillItem createBillItem(PayBillItem payBill, List<String> beanList) {
         PayBillItem payBillItem = new PayBillItem();
-        payBillItem.setMchId(payBill.getMchId());
+        payBillItem.setMchId(payBill.getMchId());  //平台分配商户号
         payBillItem.setBillDate(payBill.getBillDate());
         payBillItem.setTradeTime(DateUtils.parse(beanList.get(0)));
         //APP JSPAY  NATIVE
 //        PayWay payWay = PayWay.getByType(beanList.get(8));
 //        payBillItem.setPayWay(null == payWay ? PayWay.WX_PAY.code() : payWay.code());
         payBillItem.setPayWay(payBill.getPayWay());
-        payBillItem.setThirdMchId(beanList.get(2));
-        payBillItem.setThirdSubMchId(beanList.get(3));
-        payBillItem.setThirdTradeNo(beanList.get(5));
-        payBillItem.setTradeNo(beanList.get(6));
+        payBillItem.setThirdMchId(beanList.get(2));    //第三方支付商户
+        payBillItem.setThirdSubMchId(beanList.get(3)); //第三方支付子商户
+        payBillItem.setTradeNo(beanList.get(6));       //平台支付单号
+        payBillItem.setThirdTradeNo(beanList.get(5));  //第三方支付单号
+        PayWay payWay = PayWay.getByCode(payBill.getPayWay());
+        payBillItem.setPayChannel(payWay.getChannel());
 
         if("SUCCESS".equals(beanList.get(9))) { //支付
             payBillItem.setBillType(1);
             payBillItem.setTradeStatus(TradeStatus.TRADE_SUCCESS.code());
             payBillItem.setTradeAmount(new BigDecimal(beanList.get(13)));
         }
-        if("REFUND".equals(beanList.get(9))) {  //退款
-            payBillItem.setThirdRefundNo(beanList.get(14));
-            payBillItem.setRefundNo(beanList.get(15));
+        if("REFUND".equals(beanList.get(9))) {             //退款
+            payBillItem.setRefundNo(beanList.get(15));     //平台退款单号
+            payBillItem.setThirdRefundNo(beanList.get(14));//第三方退款单号
             payBillItem.setBillType(2);
             payBillItem.setRefundTime(DateUtils.parse(beanList.get(0)));
             payBillItem.setRefundAmount(new BigDecimal(beanList.get(16)));

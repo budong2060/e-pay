@@ -2,6 +2,7 @@ package com.pay.service;
 
 import com.pay.common.Pager;
 import com.pay.domain.PayBillItem;
+import com.pay.domain.PayConfig;
 
 import java.util.Date;
 
@@ -27,4 +28,17 @@ public interface PayBillService {
      */
     Pager<PayBillItem> query(String unitId, Integer[] payWay, Integer[] orderType, Date billDate, Integer page, Integer size);
 
+    /**
+     * 对账处理
+     * @param mchId
+     * @param billDate
+     */
+    void execBalance(String mchId, Date billDate);
+
+    /**
+     *
+     * @param billDate
+     * @param payConfig
+     */
+    void execBalance(Date billDate, PayConfig payConfig);
 }

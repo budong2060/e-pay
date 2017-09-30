@@ -6,6 +6,8 @@ import com.pay.common.PayHandlerExceptionResolver;
 import com.pay.intercepter.AllInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -115,4 +117,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         characterEncodingFilter.setForceEncoding(true);
         return characterEncodingFilter;
     }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+
+        registry.addFormatter(new DateFormatter());
+    }
+
 }

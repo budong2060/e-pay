@@ -16,7 +16,7 @@ public interface PayBillItemMapper extends BaseMapper<PayBillItem> {
      * 批量保存数据
      * @param items
      */
-    void batchSave(@Param("items") List<PayBillItem> items);
+    void batchInsert(@Param("items") List<PayBillItem> items);
 
 
     /**
@@ -24,25 +24,22 @@ public interface PayBillItemMapper extends BaseMapper<PayBillItem> {
      * @param mchId
      * @param dateTime
      */
-    void deleteByDate(@Param("mchId") String mchId, @Param("payWay") Integer payWay, @Param("billDate") String dateTime);
+    void deleteByDate(@Param("mchId") String mchId, @Param("payChannel") String payChannel, @Param("billDate") String dateTime);
 
     /**
      *
-     * @param mchId
-     * @param payWay
+     * @param item
      * @return
      */
-    int countByMchId(@Param("mchId") String mchId, @Param("payWay") Integer payWay, @Param("billDate")String billDate);
+    int countByMchId(PayBillItem item);
 
     /**
      *
-     * @param mchId
-     * @param payWay
+     * @param item
      * @param pageNo
      * @param pageSize
      * @return
      */
-    List<PayBillItem> pageQuery(@Param("mchId") String mchId, @Param("payWay") Integer payWay, @Param("billDate")String billDate,
-                                @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+    List<PayBillItem> pageQuery( @Param("item") PayBillItem item, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
 
 }

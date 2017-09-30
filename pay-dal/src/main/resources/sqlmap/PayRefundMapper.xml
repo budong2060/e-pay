@@ -4,16 +4,16 @@
 <mapper namespace="com.pay.mybatis.PayRefundMapper">
 
 	<sql id="commCols">
-		id id, user_id userId, refund_time refundTime, pay_way payWay,
+		id id, user_id userId, refund_time refundTime, pay_channel payChannel, pay_way payWay,
 		trade_no tradeNo, refund_amount refundAmount, refund_finish_time refundFinishTime, refund_status refundStatus,
 		third_refund_no thirdRefundNo, refund_desc refundDesc, notify_url notifyUrl,
 		mch_id mchId, notify_code notifyCode, create_time createTime, update_time updateTime
 	</sql>
 
 	<insert id="save" parameterType="com.pay.domain.PayRefund" flushCache="true" useGeneratedKeys="true" keyProperty="id">
-		 insert into pay_refund(user_id, refund_time, pay_way, trade_no, refund_amount,
+		 insert into pay_refund(user_id, refund_time, pay_channel, pay_way, trade_no, refund_amount,
 		 	refund_finish_time, refund_status, third_refund_no, refund_desc, notify_url, mch_id, notify_code, create_time, update_time)
-		 values(#{userId},#{refundTime}, #{payWay}, #{tradeNo}, #{refundAmount},
+		 values(#{userId},#{refundTime}, #{payChannel}, #{payWay}, #{tradeNo}, #{refundAmount},
 		  	#{refundFinishTime},#{refundStatus},#{thirdRefundNo},#{refundDesc},#{notifyUrl},#{mchId}, #{notifyCode}, NOW(), NOW())
 	</insert>
 
@@ -38,6 +38,9 @@
 			</if>
 			<if test="refundTime != null">
 				refund_time = #{refundTime},
+			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
 			</if>
 			<if test="payWay != null">
 				pay_way = #{payWay},
@@ -84,6 +87,9 @@
 			<if test="orderType != null">
 				and order_type=#{orderType}
 			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
+			</if>
 			<if test="payWay != null">
 				and pay_way=#{payWay}
 			</if>
@@ -124,6 +130,9 @@
 			<if test="orderType != null">
 				and order_type=#{orderType}
 			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
+			</if>
 			<if test="payWay != null">
 				and pay_way=#{payWay}
 			</if>
@@ -147,6 +156,28 @@
 			</if>
 		</where>
 		LIMIT #{pageNum}, #{pageSize}
+	</select>
+
+
+	<select id="findByTradeDate" resultType="com.pay.domain.PayBillItem">
+		select
+			id id, refund_finish_time billDate, mch_id mchId, pay_channel payChannel, pay_way payWay, 2 billType,
+			trade_no tradeNo, refund_no refundNo, third_refund_no thirdRefundNo, refund_time refundTime,
+			refund_finish_time refundFinishTime, refund_amount refundAmount
+		FROM pay_refund
+		<where>
+			1= 1
+			<if test="mchId != null and mchId != ''">
+				and mch_id=#{mchId}
+			</if>
+			<if test="payChannel != null">
+				and pay_channel=#{payChannel}
+			</if>
+			<if test="tradeDate != null">
+				AND date_format(refund_finish_time, '%Y-%m-%d') = date_format(#{tradeDate}, '%Y-%m-%d')
+			</if>
+		</where>
+		LIMIT #{pageNo}, #{pageSize}
 	</select>
 
 </mapper>
